@@ -10,16 +10,10 @@ function toggleFn(e: MouseEvent) {
 </script>
 
 <template>
-  <ElButton
-    class="btn v-card"
-    round
+  <div
+    class="flex-rowc-c-c rounded-1/2"
     @click="toggleFn"
   >
-    <span
-      hidden overflow-hidden truncate md:inline
-    >
-      {{ setting.settingPage.modeToggle.value === 'dark' ? "切换日间" : "切换夜间" }}
-    </span>
     <img
       v-if="setting.settingPage.modeToggle.value === 'light'"
       class="h-1.3em w-1.3em"
@@ -38,7 +32,7 @@ function toggleFn(e: MouseEvent) {
       class="h-1.3em w-1.3em fill-light-5"
       alt="sun 日间模式"
     >
-  </ElButton>
+  </div>
 </template>
 
 <style lang="scss" scoped>

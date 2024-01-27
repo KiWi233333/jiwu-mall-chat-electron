@@ -1,32 +1,21 @@
 <script lang="ts" setup>
 const user = useUserStore();
-function exitForm() {
-  user.showLoginForm = false;
-  user.showRegisterForm = false;
-}
 </script>
 
 <template>
-  <div>
-    <transition name="fade">
-      <div
-        v-if="user.showLoginForm || user.showRegisterForm"
-        v-auto-animate
-        tag="div"
-        name="popup"
-        class="forms"
-        relative
-        @keyup.esc="exitForm"
-        @click.self="exitForm"
-      >
-        <!-- 登录 -->
-        <FormLoginForm v-if="user.showLoginForm" key="login-form" />
-        <!-- 注册 -->
-        <FormRegisterForm v-else-if="user.showRegisterForm" key="register-form" />
-        <!-- 找回密码 -->
-        <!-- <FormRegisterForm key="form" v-if="user.showUpdatePwd" /> -->
-      </div>
-    </transition>
+  <div h-100vh w-100vw flex-row-c-c>
+    <div
+      v-auto-animate
+      tag="div"
+      name="popup"
+      class="forms"
+      relative
+    >
+      <!-- 登录 -->
+      <FormLoginForm v-if="user.showLoginForm" key="login-form" />
+      <!-- 注册 -->
+      <FormRegisterForm v-else-if="user.showRegisterForm" key="register-form" />
+    </div>
   </div>
 </template>
 

@@ -8,20 +8,12 @@ const user = useUserStore();
 const ws = useWs();
 const timer = ref();
 
-watch(() => user.getToken, (val) => {
-  if (val)
-    load();
-  else
-    ws.webSocketHandler?.close();
-}, {
-  immediate: true,
-  deep: true,
-});
 
 // 通知消息类型  WsMsgBodyType
 const noticeType = [
   WsMsgBodyType.MESSAGE, // 普通消息
 ];
+
 
 // 初始化
 function load() {
@@ -89,8 +81,6 @@ onMounted(() => {
   }, false);
 });
 
-const route = useRoute();
-
 // @unocss-include
 // 右键菜单
 const colorMode = useColorMode();
@@ -114,15 +104,6 @@ function onContextMenu(e: MouseEvent) {
 
   ContextMenu.showContextMenu(opt);
 }
-
-onUnmounted(() => {
-  if (!route.path.startsWith("/chat")) {
-    clearInterval(timer.value);
-    if (ws.webSocketHandler)
-      ws.webSocketHandler?.close();
-    timer.value = false;
-  }
-});
 </script>
 
 <template>

@@ -111,7 +111,7 @@ function scrollTop(size: number) {
     top: size || 0,
   });
 }
-
+const user = useUserStore();
 // 绑定事件
 nextTick(() => {
   chat.scrollBottom = scrollBottom;
@@ -130,37 +130,46 @@ onBeforeUnmount(() => {
 <template>
   <div class="relative flex flex-col">
     <!-- 房间信息 -->
-    <h4 class="flex-row-bt-c border-0 border-b-1 rounded-0 p-4 border-default card-default md:p-4">
-      <div w-full flex flex-shrink-0 items-center gap-3>
-        <CardElImage
-          :src="BaseUrlImg + chat.theContact.avatar"
-          class="h-2.2rem w-2.2rem object-cover border-default card-default"
-        />
-        <span>
-          {{ chat.theContact.name }}
-
-        </span>
-        <el-tag effect="dark" size="small">
-          {{ getType }}
-        </el-tag>
-        <!-- 断开会话 -->
-        <i
-          v-if="ws.status === WsStatusEnum.OPEN"
-          circle plain
-          class="ml-a cursor-pointer btn-danger"
-          transition="all  op-60 group-hover:op-100 300  cubic-bezier(0.61, 0.225, 0.195, 1.3)"
-          i-solar:power-bold
-          p-2.2 @click="ws.close()"
-        />
-        <!-- 查看群成员 -->
-        <i
-          v-if="chat.theContact.type === RoomType.GROUP"
-          class="flex-row-c-c grid-gap-2 btn-primary"
-          transition="all  op-60 group-hover:op-100 300  cubic-bezier(0.61, 0.225, 0.195, 1.3)"
-          i-solar:users-group-two-rounded-bold-duotone
-          p-2.2 @click="setting.isOpenGroupMember = !setting.isOpenGroupMember"
-        />
-      </div>
+    <h4 class="w-full flex flex-shrink-0 items-center gap-4 border-0 border-b-1 rounded-0 p-4 border-default card-default md:p-4">
+      <CardElImage
+        :src="BaseUrlImg + chat.theContact.avatar"
+        class="h-2.2rem w-2.2rem object-cover border-default card-default"
+      />
+      <span>
+        {{ chat.theContact.name }}
+      </span>
+      <el-tag effect="dark" size="small">
+        {{ getType }}
+      </el-tag>
+      <!-- 主题 -->
+      <BtnTheme class="ml-a btn-primary" />
+      <!-- 断开会话 -->
+      <i
+        v-if="ws.status === WsStatusEnum.OPEN"
+        circle plain
+        class="cursor-pointer btn-danger"
+        transition="all  op-60 group-hover:op-100 300  cubic-bezier(0.61, 0.225, 0.195, 1.3)"
+        i-solar:power-bold
+        p-2.2 @click="ws.close()"
+      />
+      <!-- 退出登录 -->
+      <i
+        circle plain
+        class="cursor-pointer btn-danger"
+        transition="all  op-60 group-hover:op-100 300  cubic-bezier(0.61, 0.225, 0.195, 1.3)"
+        i-solar:logout-3-broken
+        p-2.2 @click="() => {
+          user.exitLogin();
+        }"
+      />
+      <!-- 查看群成员 -->
+      <i
+        v-if="chat.theContact.type === RoomType.GROUP"
+        class="flex-row-c-c grid-gap-2 btn-primary"
+        transition="all  op-60 group-hover:op-100 300  cubic-bezier(0.61, 0.225, 0.195, 1.3)"
+        i-solar:users-group-two-rounded-bold-duotone
+        p-2.2 @click="setting.isOpenGroupMember = !setting.isOpenGroupMember"
+      />
     </h4>
     <!-- 消息列表 -->
     <div class="relative mt-a flex-1 bg-light-5 shadow-sm dark:bg-dark-9">

@@ -9,7 +9,7 @@ const BASE_URL = process.env.NUXT_PUBLIC_API_BASE_URL;
 const isSSR = process.env.NODE_ENV === "development" ? true : process.env.NUXT_PUBLIC_SPA === "true";
 
 // 打印
-console.log(`mode:${process.env.NODE_ENV}，api_url:${BASE_URL}，SSR:${isSSR}`);
+console.log(`mode:${process.env.NODE_ENV}，api_url:${BASE_URL}，SSR:${false}`);
 export default defineNuxtConfig({
   ssr: false,
   build: {
@@ -100,7 +100,7 @@ export default defineNuxtConfig({
         },
       },
     },
-    plugins: [ 
+    plugins: [
     ],
     build: {
       chunkSizeWarningLimit: 1000,
@@ -128,7 +128,7 @@ export default defineNuxtConfig({
   nitro: {
     preset: "node-server",
   },
- 
+
   // 3、elementPlus
   elementPlus: {
     icon: "ElIcon",
@@ -137,7 +137,7 @@ export default defineNuxtConfig({
   },
   // 4、swiper
   swiper: {
-    },
+  },
   // pwa
   pwa,
   // nuxt开发者工具

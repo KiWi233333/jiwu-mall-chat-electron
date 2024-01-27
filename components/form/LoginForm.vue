@@ -203,6 +203,8 @@ async function onLogin(formEl: any | undefined) {
           showRegisterForm: false,
           isLogin: true,
         });
+        navigateTo("/");
+        return;
       }
       // 登录失败
       else {
@@ -228,7 +230,7 @@ async function onLogin(formEl: any | undefined) {
   <!-- 登录 -->
   <el-form
     ref="formRef"
-    v-loading="isLoading"
+    v-loading.fullscreen.lock="isLoading"
     label-position="top"
     hide-required-asterisk
     :rules="rules"

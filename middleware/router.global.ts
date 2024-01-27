@@ -5,11 +5,12 @@
 // ];
 // 路由中间件
 export default defineNuxtRouteMiddleware((to) => {
-  // const user = useUserStore();
-  // if (AuthRoute.filter(p => p.test(to.path)).length > 0) {
-  //   if (user.getToken === "" || !user.isLogin) {
-  //     user.showLoginForm = true;
-  //     abortNavigation();
-  //   }
-  // }
+  const user = useUserStore();
+  if (to.path === "/login")
+    return;
+  if (user.getToken === "" || !user.isLogin) {
+    user.showLoginForm = true;
+    // abortNavigation("还未登录！");
+    return "/login";
+  }
 });
