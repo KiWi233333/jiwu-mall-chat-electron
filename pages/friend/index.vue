@@ -7,7 +7,7 @@ definePageMeta({
 });
 
 useSeoMeta({
-  title: "极物聊天 - 极物圈 👑",
+  title: "极物聊天",
   description: "极物聊天 - 极物圈 开启你的极物之旅！",
   keywords: appKeywords,
 });

@@ -19,6 +19,7 @@ function getTime(time: string) {
   ;
 }
 
+const isSelf = computed(() => props.data?.fromUser?.userId === user?.userInfo.id);
 
 // 具体
 const body: Partial<TextBodyMsgVO> | undefined = props.data.message?.body || {};
@@ -36,10 +37,8 @@ const getAtText = computed(() => {
   <div
     v-bind="$attrs"
     :label="data.roomId"
-    :class="{
-      self: data?.fromUser?.userId === user?.userInfo.id,
-    }"
-    max-w-full w-fit flex gap-4 p-2 py-3
+    class="max-w-3/4 w-fit flex gap-4 p-2 py-3"
+    :class="isSelf ? 'self pl-2em  sm:pl-5em ' : 'pr-2em sm:pr-5em'"
   >
     <CardElImage :src="BaseUrlImg + data.fromUser.avatar" fit="cover" class="avatar h-2.4rem w-2.4rem flex-shrink-0 rounded-1/2 object-cover border-default" />
     <!-- 消息体 -->

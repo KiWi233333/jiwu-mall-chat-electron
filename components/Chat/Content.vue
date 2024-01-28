@@ -86,9 +86,12 @@ function scrollReplyMsg(msgId: number, gapCount: number = 0) {
   });
 }
 
-
+const isScroll = ref(false);
 // 滚动到底部
 function scrollBottom(animate = true) {
+  if (isScroll.value)
+    return;
+  isScroll.value = true;
   timer.value = setTimeout(() => {
     if (animate) {
       scrollbarRef.value?.wrapRef?.scrollTo({
@@ -99,6 +102,7 @@ function scrollBottom(animate = true) {
     else {
       scrollbarRef.value?.setScrollTop(scrollbarRef?.value?.wrapRef?.scrollHeight || 0);
     }
+    isScroll.value = false;
   }, 200);
 }
 
@@ -118,7 +122,6 @@ nextTick(() => {
   chat.scrollReplyMsg = scrollReplyMsg;
   chat.saveScrollTop = saveScrollTop;
   chat.scrollTop = scrollTop;
-  scrollBottom();
 });
 
 onBeforeUnmount(() => {
@@ -144,14 +147,14 @@ onBeforeUnmount(() => {
       <!-- 主题 -->
       <BtnTheme class="ml-a btn-primary" />
       <!-- 断开会话 -->
-      <i
+      <!-- <i
         v-if="ws.status === WsStatusEnum.OPEN"
         circle plain
         class="cursor-pointer btn-danger"
         transition="all  op-60 group-hover:op-100 300  cubic-bezier(0.61, 0.225, 0.195, 1.3)"
         i-solar:power-bold
         p-2.2 @click="ws.close()"
-      />
+      /> -->
       <!-- 退出登录 -->
       <i
         circle plain

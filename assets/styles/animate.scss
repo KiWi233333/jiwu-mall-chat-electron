@@ -82,15 +82,14 @@
 html.stop-transition {
   * {
     transition: none !important;
-    filter: none !important;
-    backdrop-filter: none !important;
-    // background: inherit ！important
-    // background: none !important;
   }
 }
 html.stop-transition-all {
   * {
     transition: none !important;
+    animation: none !important;
+    filter: none !important;
+    backdrop-filter: none !important;
   }
 }
 

@@ -15,17 +15,17 @@ const options = {
   // schemes: ['deeplink']
   // },
   // - Electron auto-updater config
-  // publish: [
-  //   {
-  //     provider: 'github',
-  //     owner: 'eternalc0der',
-  //     repo: '极物圈',
-  //     releaseType: 'release'
-  //   }
-  // ],
+  publish: [
+    {
+      provider: "github",
+      owner: "eternalc0der",
+      repo: "极物圈",
+      releaseType: "release",
+    },
+  ],
 
   // "store" | "normal" | "maximum" - For testing builds, use 'store' to reduce build time significantly.
-  compression: "maximum",
+  compression: "store",
   removePackageScripts: true,
 
   nodeGypRebuild: false,
@@ -34,18 +34,17 @@ const options = {
   directories: {
     output: "electron-dist",
   },
+  // windows
   win: {
     // eslint-disable-next-line no-template-curly-in-string
-    artifactName: "${productName}-Setup-${version}.${ext}",
+    artifactName: "${productName}-${version}.${ext}",
     target: [
       {
         target: "nsis",
         arch: ["x64", "ia32"],
       },
     ],
-  },
-  nsis: {
-    deleteAppDataOnUninstall: true,
+    icon: "./public/logo.png",
   },
   mac: {
     category: "public.app-category.entertainment",
@@ -57,15 +56,30 @@ const options = {
         arch: ["x64", "arm64"],
       },
     ],
+    icon: "./public/logo.png",
   },
   linux: {
-    maintainer: "Your Name",
+    maintainer: "极物圈",
     desktop: {
       StartupNotify: "false",
       Encoding: "UTF-8",
       MimeType: "x-scheme-handler/deeplink",
     },
     target: ["AppImage", "rpm", "deb"],
+    icon: "./public/logo.png",
+  },
+  nsis: {
+    oneClick: false,
+    guid: "idea",
+    perMachine: true,
+    allowElevation: true,
+    allowToChangeInstallationDirectory: true,
+    installerIcon: "./public/logo.png",
+    uninstallerIcon: "./public/logo.png",
+    installerHeaderIcon: "./public/logo.png",
+    createDesktopShortcut: true,
+    createStartMenuShortcut: true,
+    shortcutName: "idea",
   },
 };
 

@@ -39,7 +39,7 @@ const menuList = [
     tipValue: computed(() => applyUnRead.value + ws.wsMsgList.applyMsg.length),
   },
   {
-    title: "好友",
+    title: "AI客服",
     path: "/ai",
     icon: "i-solar:ghost-line-duotone",
     activeIcon: "i-solar:ghost-bold-duotone",
@@ -51,23 +51,19 @@ const menuList = [
     icon: "i-solar:settings-linear",
     activeIcon: "i-solar:settings-bold-duotone",
   },
-  // {
-  //   title: "回到首页",
-  //   path: "/",
-  //   icon: "i-solar:logout-3-broken",
-  // },
 ];
 const setting = useSettingStore();
 </script>
 
 <template>
   <div
-    class="menu relative z-998 h-full bg-light bg-opacity-80 transition-300 transition-width md:block dark:bg-[#121212] md:shadow-none"
+    class="menu relative z-998 h-full max-w-1/2 bg-light bg-opacity-80 transition-300 transition-width md:block dark:bg-[#121212] md:shadow-none"
     :class="{
-      'w-0': setting.showChatMenu,
+      'max-w-0': setting.showChatMenu,
     }"
   >
     <el-menu
+      class="sm:w-12rem"
       :class="{
         hidden: setting.showChatMenu,
       }"
@@ -78,17 +74,7 @@ const setting = useSettingStore();
       <!-- 顶部 -->
       <div class="w-full flex-row-c-c flex-wrap px-5 transition-300 transition-300 sm:flex-row-bt-c hover:bg-transparent">
         <div class="home mt-6 self-center transition-300">
-          <ClientOnly>
-            <CardUserLine
-              :user-info="user.userInfo" :propver-props="{
-                placement: 'right-start',
-                trigger: 'hover',
-                offset: 30,
-              }"
-            >
-              <CardElImage :src="BaseUrlImg + user.userInfo.avatar" class="relative z-100 h-2rem w-2rem border-default card-default" alt="头像" />
-            </CardUserLine>
-          </ClientOnly>
+          <CardElImage :src="BaseUrlImg + user.userInfo.avatar" class="relative z-100 h-2rem w-2rem border-default card-default" alt="头像" />
         </div>
         <!-- 会话 -->
         <ChatContactBtn class="block sm:hidden" />

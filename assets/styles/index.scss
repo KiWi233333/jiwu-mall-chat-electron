@@ -168,14 +168,14 @@
     &,
     * {
       color: #fff;
-      background-color: #1b1b1b;
+      background-color: transparent;
 
       .v-md-editor__toolbar-item:hover {
         color: #000;
       }
 
       .v-md-editor__menu--list {
-        background-color: #1b1b1b;
+        background-color: transparent;
         border-radius: 6px;
       }
     }

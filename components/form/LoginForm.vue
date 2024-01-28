@@ -8,7 +8,7 @@ import {
 } from "~/composables/api/user";
 import { LoginType } from "~/types/user/index.js";
 
-const loginType = ref<number>(LoginType.EMAIL);
+const loginType = ref<LoginType>(LoginType.EMAIL);
 const isLoading = ref<boolean>(false);
 const autoLogin = ref<boolean>(false);
 // 表单
@@ -184,6 +184,9 @@ async function onLogin(formEl: any | undefined) {
         case LoginType.EMAIL:
           res = await toLoginByEmail(userForm.email, userForm.code);
           break;
+        case LoginType.ADMIN:
+          res = await toLoginByPwd(userForm.username, userForm.password, true);
+          break;
       }
     }
     finally {
@@ -242,7 +245,7 @@ async function onLogin(formEl: any | undefined) {
       mt-4
       tracking-0.2em
     >
-      欢迎来到极物圈🎉
+      极物圈社区聊天✨
     </h2>
     <p
       mb-10 text-0.8em tracking-0.1em
@@ -253,6 +256,14 @@ async function onLogin(formEl: any | undefined) {
         @click="toRegister"
       >
         立即注册
+      </span>
+
+      <span
+        flex-1
+        class="transition-all btn-info"
+        @click="loginType = LoginType.ADMIN"
+      >
+        管理员
       </span>
     </p>
     <!-- 切换登录 -->
@@ -355,7 +366,7 @@ async function onLogin(formEl: any | undefined) {
     </el-form-item>
     <!-- 密码登录 -->
     <el-form-item
-      v-if="loginType === LoginType.PWD"
+      v-if="loginType === LoginType.PWD || loginType === LoginType.ADMIN "
       label=""
       prop="username"
       class="animated"
@@ -369,7 +380,7 @@ async function onLogin(formEl: any | undefined) {
       />
     </el-form-item>
     <el-form-item
-      v-if="loginType === LoginType.PWD"
+      v-if="loginType === LoginType.PWD || loginType === LoginType.ADMIN"
       type="password"
       show-password
       label=""

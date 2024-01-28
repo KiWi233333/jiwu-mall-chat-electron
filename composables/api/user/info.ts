@@ -7,7 +7,14 @@ import type { Gender, UserStatus } from "~/types";
  * @param token token
  * @returns UserInfoVO
  */
-export function getUserInfo(token: string) {
+export function getUserInfo(token: string, isAdmin: boolean = false) {
+  if (isAdmin) {
+    return useHttp.get<Result<UserInfoVO>>("/admin/user/info", {
+      headers: {
+        Authorization: token,
+      },
+    });
+  }
   return useHttp.get<Result<UserInfoVO>>("/user/info", {}, {
     headers: {
       Authorization: token,

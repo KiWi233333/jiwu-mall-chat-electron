@@ -107,10 +107,6 @@ export default defineNuxtConfig({
       rollupOptions: {
         output: {
           manualChunks: {
-            echarts: ["echarts", "vue-echarts"],
-            vmdeidtor: ["kangc/v-md-editor"],
-            prismjs: ["vite-plugin-prismjs"],
-            elementChinaAreaData: ["element-china-area-data"],
           },
         },
         // external: ["workbox-build"],

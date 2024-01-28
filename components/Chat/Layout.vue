@@ -47,6 +47,7 @@ function load() {
 
 // TODO: 单次运行是否失去焦点
 onMounted(() => {
+  load();
   if (!document)
     return;
   let hiddenProp: any, visibilityChange;
@@ -104,19 +105,33 @@ function onContextMenu(e: MouseEvent) {
 
   ContextMenu.showContextMenu(opt);
 }
+
+const route = useRoute();
+onUnmounted(() => {
+  if (route.path.startsWith("/login")) {
+    clearInterval(timer.value);
+    if (ws.webSocketHandler)
+      ws.webSocketHandler?.close();
+    timer.value = false;
+  }
+});
 </script>
 
 <template>
-  <div class="h-100vh max-w-100vw w-100vw flex flex-col">
-    <MenuHeaderMenuBar class="flex-shrink-0 cursor-pointer" />
+  <div class="h-100vh max-h-100vh max-w-100vw w-100vw flex flex-col overflow-hidden shadow border-default v-card">
     <div
       v-if="user.isLogin && ws.status === WsStatusEnum.OPEN"
-      class="main-box"
-      v-bind="$attrs"
-      @dblclick="onContextMenu($event)"
+      class="grid grid-cols-1"
     >
-      <MenuChatMenu />
-      <slot />
+      <LazyMenuHeaderMenuBar />
+      <div
+        class="main-box relative"
+        v-bind="$attrs"
+        @dblclick="onContextMenu($event)"
+      >
+        <MenuChatMenu />
+        <slot />
+      </div>
     </div>
     <div
       v-else-if="user.isLogin && ws.status !== WsStatusEnum.OPEN"
@@ -173,9 +188,10 @@ function onContextMenu(e: MouseEvent) {
 
 <style scoped lang="scss">
 .main-box {
-  --at-apply: "mx-a py-4 flex-1 w-full flex overflow-hidden p-0 border-default card-default";
+  --at-apply: "mx-a py-4 flex-1 w-full flex overflow-hidden p-0 bg-color rounded-0";
 }
 .main-box {
   padding: 0 !important;
+  height: calc(100vh - $top-nav-height);
 }
 </style>

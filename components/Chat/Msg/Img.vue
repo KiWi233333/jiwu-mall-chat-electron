@@ -18,6 +18,7 @@ function getTime(time: string) {
     : useDateFormat(time, "HH:mm:ss").value.toString()
   ;
 }
+const isSelf = computed(() => props.data?.fromUser?.userId === user?.userInfo.id);
 
 // 具体
 const body: Partial<ImgBodyMsgVO> | undefined = props.data.message?.body || {};
@@ -27,9 +28,8 @@ const body: Partial<ImgBodyMsgVO> | undefined = props.data.message?.body || {};
   <div
     v-bind="$attrs"
     :label="data.roomId"
-    :class="{
-      self: data?.fromUser?.userId === user?.userInfo.id,
-    }"
+    class="max-w-3/4 w-fit flex gap-4 p-2 py-3"
+    :class="isSelf ? 'self pl-2em  sm:pl-5em ' : 'pr-2em sm:pr-5em'"
     max-w-full w-fit flex gap-4 p-2 py-3 transition-300 transition-transform active:scale-95
   >
     <CardElImage :src="BaseUrlImg + data.fromUser.avatar" fit="cover" class="avatar h-2.4rem w-2.4rem rounded-1/2 object-cover border-default" />

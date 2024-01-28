@@ -21,7 +21,7 @@ function getTime(time: string) {
     : useDateFormat(time, "HH:mm:ss").value.toString()
   ;
 }
-
+const isSelf = computed(() => props.data?.fromUser?.userId === user?.userInfo.id);
 // 具体
 const body: Partial<TextBodyMsgVO> | undefined = props.data.message?.body || {};
 </script>
@@ -30,10 +30,8 @@ const body: Partial<TextBodyMsgVO> | undefined = props.data.message?.body || {};
   <div
     v-bind="$attrs"
     :label="data.roomId"
-    :class="{
-      self: data?.fromUser?.userId === user?.userInfo.id,
-    }"
-    max-w-full w-fit flex flex-shrink-0 gap-4 p-2 py-3 transition-300 transition-transform active:scale-95
+    :class="isSelf ? 'self pl-2em  sm:pl-6em' : 'pr-2em sm:pr-6em'"
+    max-w-full w-fit flex flex-shrink-0 gap-4 p-2 py-3
   >
     <CardElImage :src="BaseUrlImg + data.fromUser.avatar" fit="cover" class="avatar h-2.4rem w-2.4rem flex-shrink-0 rounded-1/2 object-cover border-default" />
     <!-- 消息体 -->
@@ -57,9 +55,9 @@ const body: Partial<TextBodyMsgVO> | undefined = props.data.message?.body || {};
         />
       </div>
       <!-- AT -->
-      <small v-if="body?.reply" mt-2 class="cursor-pointer truncate px-2 py-1 op-70 border-default card-default" @click="chat.scrollReplyMsg(body?.reply?.id, body?.reply?.gapCount)">
+      <!-- <small v-if="body?.reply" mt-2 class="cursor-pointer truncate px-2 py-1 op-70 border-default card-default" @click="chat.scrollReplyMsg(body?.reply?.id, body?.reply?.gapCount)">
         回复: {{ `${body.reply.nickName}:${body.reply?.body || ''}` }}
-      </small>
+      </small> -->
     </div>
   </div>
   <p v-if="index % 8 === 0" w-full py-2 text-center text-0.8em op-80>
@@ -85,7 +83,7 @@ const body: Partial<TextBodyMsgVO> | undefined = props.data.message?.body || {};
   }
 }
 :deep(.vuepress-markdown-body) {
-  font-size: 0.8rem;
+  font-size: 0.9em;
   padding: 0 !important;
 }
 </style>

@@ -69,18 +69,19 @@ export const useUserStore = defineStore(
      * @param token 用户token
      */
     const loadUserWallet = async (token: string): Promise<boolean> => {
-      const wallet = await getUserWallet(token);
-      if (wallet.code === StatusCode.SUCCESS) {
-        useUserStore().$patch({
-          userWallet: {
-            ...wallet.data,
-          },
-        });
-        return true;
-      }
-      else {
-        return false;
-      }
+      // const wallet = await getUserWallet(token);
+      // if (wallet.code === StatusCode.SUCCESS) {
+      //   useUserStore().$patch({
+      //     userWallet: {
+      //       ...wallet.data,
+      //     },
+      //   });
+      //   return true;
+      // }
+      // else {
+      //   return false;
+      // }
+      return true;
     };
 
     /**

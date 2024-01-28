@@ -53,10 +53,8 @@ async function loadData(call?: () => void) {
 watch(() => chat.theContact.roomId, (val) => {
   reload();
   // 消息阅读上报
-  if (val) {
+  if (val)
     chat.setReadList(val);
-    chat.scrollBottom();
-  }
 }, {
   immediate: true,
 });

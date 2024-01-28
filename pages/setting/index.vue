@@ -1,49 +1,50 @@
 <script lang="ts" setup>
-import { useModeToggle } from '@/composables/utils/useToggleThemeAnima'
-import { appKeywords } from '@/constants/index'
+import { useModeToggle } from "@/composables/utils/useToggleThemeAnima";
+import { appKeywords } from "@/constants/index";
 
-const isLoading = ref(false)
-const setting = useSettingStore()
+const isLoading = ref(false);
+const setting = useSettingStore();
 // 字体监听
 watchDebounced(
   () => setting.settingPage.fontFamily.value,
   (val: string) => {
     if (val && document) {
-      isLoading.value = true
-      localStorage.setItem('--font-family', val)
-      document.documentElement.style.setProperty('--font-family', val)
+      isLoading.value = true;
+      localStorage.setItem("--font-family", val);
+      document.documentElement.style.setProperty("--font-family", val);
       setTimeout(() => {
-        isLoading.value = false
-      }, 500)
+        isLoading.value = false;
+      }, 500);
     }
-  }
-)
+  },
+);
 
-const theEvent = ref()
+const theEvent = ref();
 // 夜间模块
 watchDebounced(
   () => setting.settingPage.modeToggle.value,
   async (val: string) => {
     if (val && document) {
-      if (val) useModeToggle(val, val === 'auto' ? undefined : theEvent.value)
+      if (val)
+        useModeToggle(val, theEvent.value);
     }
-  }
-)
+  },
+);
 
 useSeoMeta({
-  title: '设置 - 聊天 - 极物圈 👑',
-  description: '设置 - 聊天 - 极物圈 开启你的极物之旅！',
-  keywords: appKeywords
-})
+  title: "设置",
+  description: "设置 - 极物圈 开启你的极物之旅！",
+  keywords: appKeywords,
+});
 function onSave() {
-  ElNotification.success('保存成功！')
+  ElNotification.success("保存成功！");
 }
 </script>
 
 <template>
   <div>
     <NuxtLayout name="chat">
-      <main v-loading="isLoading" class="my-8 flex flex-1 flex-col p-4 layout-default-se md:p-6">
+      <main v-loading.fullscreen.lock="isLoading" class="my-8 flex flex-1 flex-col p-4 layout-default-se md:p-6">
         <h3 flex items-center>
           系统设置
           <i i-solar:settings-bold ml-2 inline-block p0.6em opacity-60 hover:animate-spin />
@@ -70,7 +71,9 @@ function onSave() {
         <!-- 保存 -->
         <div class="btns mt-a flex-row-bt-c">
           <i />
-          <BtnElButton class="ml-a shadow" icon-class="i-solar:diskette-bold" type="info" :transition-icon="true" round @click="onSave"> 保存 </BtnElButton>
+          <BtnElButton class="ml-a shadow" icon-class="i-solar:diskette-bold" type="info" :transition-icon="true" round @click="onSave">
+            保存
+          </BtnElButton>
         </div>
       </main>
     </NuxtLayout>

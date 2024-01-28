@@ -63,6 +63,7 @@
     "vue/multi-word-component-names": ["off", {}],
     "vue/no-mutating-props": ["off"],
     // base 
+    "n/prefer-global/process": "off",
     "unused-imports/no-unused-vars":  "off", 
     "no-console":"off",
     "no-multiple-empty-lines": ["warn", { "max": 2, "maxBOF": 1 }],// 空行

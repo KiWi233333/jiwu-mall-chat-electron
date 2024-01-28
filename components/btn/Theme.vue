@@ -2,8 +2,8 @@
 const setting = useSettingStore();
 // 切换动画
 const mode = useColorMode();
-function toggleFn(e: MouseEvent) {
-  const modes = mode.value === "dark" ? "light" : "dark";
+async function toggleFn(e: MouseEvent) {
+  const modes = mode.preference === "dark" ? "light" : "dark";
   setting.settingPage.modeToggle.value = modes;
   useModeToggle(modes, e);
 }
@@ -11,7 +11,7 @@ function toggleFn(e: MouseEvent) {
 
 <template>
   <div
-    class="flex-rowc-c-c rounded-1/2"
+    class="flex-row-c-c"
     @click="toggleFn"
   >
     <img
@@ -30,7 +30,7 @@ function toggleFn(e: MouseEvent) {
       quality="50"
       densities="x1 x2"
       class="h-1.3em w-1.3em fill-light-5"
-      alt="sun 日间模式"
+      alt="moon 夜间模式"
     >
   </div>
 </template>

@@ -1,21 +1,36 @@
 <script lang="ts" setup>
+import { appKeywords } from "@/constants/index";
+
+useSeoMeta({
+  title: "极物圈登录",
+  description: "极物 - 聊天 - 极物圈 开启你的极物之旅！",
+  keywords: appKeywords,
+});
 const user = useUserStore();
+definePageMeta({
+  key: route => route.fullPath,
+  layout: false,
+});
 </script>
 
 <template>
-  <div h-100vh w-100vw flex-row-c-c>
-    <div
-      v-auto-animate
-      tag="div"
-      name="popup"
-      class="forms"
-      relative
-    >
-      <!-- 登录 -->
-      <FormLoginForm v-if="user.showLoginForm" key="login-form" />
-      <!-- 注册 -->
-      <FormRegisterForm v-else-if="user.showRegisterForm" key="register-form" />
-    </div>
+  <div h-100vh w-100vw flex-row-c-c border-default card-default>
+    <NuxtLayout name="default">
+      <div>
+        <div
+          v-auto-animate
+          tag="div"
+          name="popup"
+          class="forms"
+          relative
+        >
+          <!-- 登录 -->
+          <FormLoginForm v-if="user.showLoginForm" key="login-form" />
+          <!-- 注册 -->
+          <FormRegisterForm v-else-if="user.showRegisterForm" key="register-form" />
+        </div>
+      </div>
+    </NuxtLayout>
   </div>
 </template>
 
