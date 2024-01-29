@@ -20,9 +20,9 @@ useSeoMeta({
       <!-- 会话列表 -->
       <ChatContactTabs />
       <!-- 聊天框 -->
-      <ChatContent class="flex-1 truncate border-0 border-l-1px sm:flex-shrink-0 border-default" />
+      <ChatContent class="flex-1 truncate border-0 border-l-1px border-default" />
       <!-- 在线人数 -->
-      <ChatRoomGroup class="bg-white p-4 dark:bg-dark" />
+      <ChatRoomGroup class="p-2 bg-color sm:p-4" />
     </NuxtLayout>
   </div>
 </template>

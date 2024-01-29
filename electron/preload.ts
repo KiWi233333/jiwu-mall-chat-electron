@@ -19,4 +19,10 @@ process.once("loaded", () => {
     dark: () => ipcRenderer.invoke("dark-mode:dark"),
     isDark: () => ipcRenderer.invoke("dark-mode:isDark"),
   });
+
+  contextBridge.exposeInMainWorld("windowToggle", {
+    toggle: (type: "max" | "min" | "close") => {
+      ipcRenderer.invoke("window-toggle", type);
+    },
+  });
 });

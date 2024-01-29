@@ -11,7 +11,7 @@ const props = withDefaults(defineProps<{
   immediate: true,
   loading: false,
   autoStop: true,
-  delay: 400,
+  delay: 500,
   loadingClass: "mx-a my-0.6em h-1.4rem w-1.4rem animate-[spin_2s_infinite_linear] rounded-6px bg-[var(--el-color-primary)]",
 });
 const emit = defineEmits(["load"]);

@@ -284,7 +284,7 @@ function exitGroup() {
   <div
     v-if="chat.theContact.type === RoomType.GROUP && setting.isOpenGroupMember"
     v-bind="$attrs"
-    class="group flex flex-col animate-[fade-in-right_300ms] gap-2 border-(0 l-1 default) p-2 transition-200 transition-width sm:(relative w-1/5 flex-col p-4)"
+    class="group flex flex-col animate-[fade-in-right_300ms] gap-2 border-(0 l-1 default)  transition-200 transition-width sm:(relative p-2 w-1/5 flex-col p-4)"
   >
     <div flex-row-bt-c flex-col gap-4 truncate pb-1rem pt-2 sm:flex-row>
       <i class="sm:(h-1.8em w-1.8em)" />
@@ -298,7 +298,7 @@ function exitGroup() {
     <el-scrollbar
       height="100%"
       class="mx-a h-70vh max-w-full w-fit w-full md:w-full"
-      view-class="max-w-full mx-a  tracking-0.1em flex flex-col gap-2"
+      view-class="max-w-full mx-a  tracking-0.1em flex flex-col items-center gap-2"
       wrap-class="w-full mx-a"
     >
       <ListAutoIncre

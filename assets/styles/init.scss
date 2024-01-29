@@ -32,7 +32,7 @@ span {
 // 字体
 @font-face {
   font-display: swap;
-  font-weight: 400;
+  font-weight: 500;
   font-family: Alimama;
   src: url("/font/Alimama.woff2") format("woff2");
 }
@@ -64,10 +64,8 @@ span {
 // 页面
 html,
 body {
-  min-width: fit-content;
-  max-width: 100%;
-  min-height: 100vh;
   font-family: Alimama, Helvetica, sans-serif;
+  background-color: transparent;
 }
 
 @media screen and (width <= 768px) {
@@ -101,15 +99,15 @@ body {
 // }
 
 // 主题
-html {
-  background: radial-gradient(ellipse 80% 50% at 50% -22%, rgb(98 97 202 / 20%), #f1f2f5);
-  background-color: #f1f2f5;
-  // background-image: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(149, 148, 255, 0.4), #ffffff) no-repeat;
-}
+// html {
+//   background: radial-gradient(ellipse 80% 50% at 50% -22%, rgb(98 97 202 / 20%), #f1f2f5);
+//   // background-color: #f1f2f5;
+//   // background-image: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(149, 148, 255, 0.4), #ffffff) no-repeat;
+// }
 
-html.dark {
-  background: radial-gradient(ellipse 80% 50% at 50% -22%, rgb(98 97 202 / 20%), transparent);
-}
+// html.dark {
+//   background: radial-gradient(ellipse 80% 50% at 50% -22%, rgb(98 97 202 / 20%), transparent);
+// }
 
 *,
 .cursor-pointer {
@@ -119,8 +117,8 @@ html.dark {
 
 // 全局滚动条
 ::-webkit-scrollbar {
-  width: 0.5vw;
-  height: 0.5vw;
+  width: 0;
+  height: 0;
   background-color: #fbfbfc;
 }
 

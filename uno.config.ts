@@ -15,11 +15,11 @@ export default defineConfig({
     ["card-default", "bg-[#ffffff93] dark:bg-dark-5 rounded-1.5"],
     // ["v-card", "bg-[#ffffff93] dark:bg-dark-5 rounded-1.5 backdrop-blur-12px backdrop-saturate-180"],
     // ["card-default", "bg-[#ffffff93] dark:bg-dark-5 rounded-1.5 backdrop-blur-12px backdrop-saturate-180"],
-    ["v-btn", "border-0 rounded-4px"],
+    ["v-btn", "border-0 rounded-4px cursor-pointer"],
     ["blur-card", "backdrop-blur-4 bg-[#75757528] rounded-4px"],
-    ["v-btn-primary", "border-0 cursor-pointer rounded-4px bg-[var(--el-color-primary)] text-white"],
-    ["btn-default", "border-0 cursor-pointer rounded-4px hover:text-[var(--el-color-primary)] text-white"],
-    ["btn-primary-bg", " cursor-pointer rounded-4px hover:bg-[var(--el-color-primary)]  hover:text-white"],
+    ["v-btn-primary", "border-0 cursor-pointer rounded-4px bg-[var(--el-color-primary)] transition-all text-white"],
+    ["btn-default", "border-0 cursor-pointer rounded-4px hover:text-[var(--el-color-primary)] transition-all text-white"],
+    ["btn-primary-bg", " cursor-pointer rounded-4px hover:bg-[var(--el-color-primary)] transition-all  hover:text-white"],
     // 颜色
     ["text-color", "text-dark dark:text-white"],
     ["bg-color", "bg-white dark:bg-dark"],
@@ -44,15 +44,22 @@ export default defineConfig({
     [/^el-bg-(\w*)$/, ([_, color]) => ({ "background-color": `var(--el-color-${color})` })],
     // 文字按钮
     [/^btn-(\w*)$/, ([_, color]) => ({
-      "--at-apply": `ransition-300 cursor-pointer rounded-4px hover:text-[var(--el-color-${color})] `,
+      "--at-apply": `transition-all cursor-pointer rounded-4px hover:text-[var(--el-color-${color})] `,
     })],
     // 文字按钮
     [/^btn-(\w*)-plain$/, ([_, color]) => ({
-      "--at-apply": `ransition-300 cursor-pointer rounded-4px hover:text-[var(--el-color-${color})] `,
+      "--at-apply": `transition-all cursor-pointer rounded-4px hover:text-[var(--el-color-${color})] `,
     })],
     // 文字按钮组
     [/^group-btn-(\w*)$/, ([_, color]) => ({
-      "--at-apply": `ransition-300 cursor-pointer rounded-4px group-hover:text-[var(--el-color-${color})] `,
+      "--at-apply": `transition-all cursor-pointer rounded-4px group-hover:text-[var(--el-color-${color})] `,
+    })],
+    // hover组
+    [/^g-hover-op-([0-9]*)$/, ([_, op]) => ({
+      "--at-apply": `group-hover:(op-100) op-${op} transition-all`,
+    })],
+    [/^hover-op-([0-9]*)$/, ([_, op]) => ({
+      "--at-apply": `hover:(op-100) op-${op} transition-all`,
     })],
   ],
   theme: {

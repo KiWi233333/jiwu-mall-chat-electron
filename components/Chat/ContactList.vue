@@ -289,11 +289,11 @@ watchThrottled(() => ws.wsMsgList.memberMsg, async (list) => {
             :label="room.roomId"
           >
             <div
-              class="group flex gap-2 truncate bg-white p-4 transition-200 transition-shadow sm:w-full dark:bg-dark text-color"
+              class="group flex gap-3 truncate bg-white p-4 transition-200 transition-shadow sm:w-full dark:bg-dark text-color"
               @contextmenu.stop="onContextMenu($event, room)"
             >
               <el-badge :hidden="!room.unreadCount" :max="99" :value="room.unreadCount" class="h-2.6rem w-2.6rem flex-shrink-0">
-                <CardElImage :src="BaseUrlImg + room.avatar" fit="cover" class="h-2.6rem w-2.6rem object-cover border-default card-default" />
+                <CardElImage :src="BaseUrlImg + room.avatar" fit="cover" class="h-2.6rem w-2.6rem object-cover shadow-sm card-default" />
               </el-badge>
               <div class="flex flex-1 flex-col justify-between truncate">
                 <p truncate>
@@ -341,16 +341,16 @@ watchThrottled(() => ws.wsMsgList.memberMsg, async (list) => {
   height: fit-content;
   display: block;
   padding: 0 !important;
-  border-color: #cccccc25 !important;
-  transition: 200ms border;
+  border-color: transparent !important;
+  transition: all 200ms;
   margin-bottom: 1rem;
   &.is-checked {
     .group {
-      background-color: var(--el-color-primary-light-9);
-      transition: all 300ms;
-      font-weight: 600;
+      background-color: var(--el-color-primary);
+      transition: all 200ms;
+      color: #fff;
     }
-    border-color: var(--el-color-primary) !important;
+    border-color: transparent !important;
   }
   .el-radio__input {
     display: none;

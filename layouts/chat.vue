@@ -8,8 +8,8 @@ defineProps({
 </script>
 
 <template>
-  <main flex-co h-100vh max-w-100vw flex overflow-hidden>
-    <ChatLayout>
+  <main>
+    <ChatLayout max-h-100vh max-w-100vw>
       <slot />
     </ChatLayout>
   </main>

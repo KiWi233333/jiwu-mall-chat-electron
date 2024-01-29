@@ -55,13 +55,12 @@ function exitLogin() {
     confirmButtonText: "确认退出",
     lockScroll: false,
     cancelButtonText: "取消",
+    center: true,
     type: "warning",
   })
     .then(() => {
       // 退出登录
       user.onUserExit(user.token);
-      const shop = useShopStore();
-      shop?.$reset();
       ElMessage.success("退出成功！");
     })
     .catch(() => {});

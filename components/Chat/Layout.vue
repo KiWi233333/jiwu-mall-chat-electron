@@ -118,10 +118,10 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="h-100vh max-h-100vh max-w-100vw w-100vw flex flex-col overflow-hidden shadow border-default v-card">
+  <div class="h-100vh flex flex-col overflow-hidden border-default v-card">
     <div
       v-if="user.isLogin && ws.status === WsStatusEnum.OPEN"
-      class="grid grid-cols-1"
+      class="relative h-full flex flex-col"
     >
       <LazyMenuHeaderMenuBar />
       <div
@@ -136,7 +136,7 @@ onUnmounted(() => {
     <div
       v-else-if="user.isLogin && ws.status !== WsStatusEnum.OPEN"
       v-bind="$attrs"
-      class="main-box flex-row-c-c overflow-hidden"
+      class="main-box h-100vh flex-row-c-c overflow-hidden"
     >
       <OtherError :msg="ws.status === WsStatusEnum.CLOSE ? '服务连接失败，请重试' : '服务断开连接，请重连'" icon="i-solar:eye-line-duotone w-8rem h-8rem animate-[0.2s_fade-in_3]">
         <template #footer>
@@ -162,7 +162,7 @@ onUnmounted(() => {
         </template>
       </OtherError>
     </div>
-    <div v-else class="main-box flex-row-c-c">
+    <div v-else class="main-box h-100vh flex-row-c-c">
       <OtherError msg="未登录,请登录后查看!" icon="i-solar:eye-line-duotone w-8rem h-8rem animate-[0.2s_fade-in_3]">
         <template #footer>
           <BtnElButton
@@ -188,10 +188,9 @@ onUnmounted(() => {
 
 <style scoped lang="scss">
 .main-box {
-  --at-apply: "mx-a py-4 flex-1 w-full flex overflow-hidden p-0 bg-color rounded-0";
+  --at-apply: "max-w-100vw mx-a py-4 flex-1 w-full flex overflow-hidden p-0 bg-color";
 }
 .main-box {
   padding: 0 !important;
-  height: calc(100vh - $top-nav-height);
 }
 </style>

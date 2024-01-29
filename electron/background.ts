@@ -8,8 +8,11 @@ import dynamicRenderer from "./dynamicRenderer";
 import titleBarActionsModule from "./modules/titleBarActions";
 import updaterModule from "./modules/updater";
 import macMenuModule from "./modules/macMenu";
-import { setMainOption } from "./modules/default";
+import { setIPCOptions, setMainOption } from "./modules/default";
 
+// 窗口管理
+const BrowserWindowsMap = new Map<number, BrowserWindow>();
+let mainWindowId: number;
 
 // Initilize
 // =========
@@ -23,8 +26,6 @@ const modules = [titleBarActionsModule, macMenuModule, updaterModule];
 // Initialize app window 创建初始化窗口
 // =====================
 function createWindow() {
-  console.log("系统信息：", { isPord, platform, architucture });
-  // Create the browser window.
   const mainWindow = new BrowserWindow({
     title: "极物圈",
     width: 1244,
@@ -58,45 +59,35 @@ function createWindow() {
   return mainWindow;
 }
 
-
-ipcMain.handle("dark-mode:toggle", (e, theme?: "system" | "light" | "dark" | any) => {
-  if (theme === "auto") {
-    const date = new Date();
-    const hour = date.getHours();
-    nativeTheme.themeSource = (hour >= 6 && hour <= 18) ? "light" : "dark";
-    return nativeTheme.shouldUseDarkColors;
-  }
-
-  if (nativeTheme.shouldUseDarkColors)
-    nativeTheme.themeSource = theme || "light";
-  else
-    nativeTheme.themeSource = theme || "dark";
-  return nativeTheme.shouldUseDarkColors;
-});
-
-ipcMain.handle("dark-mode:isDark", () => {
-  return nativeTheme.shouldUseDarkColors;
-});
-
-ipcMain.handle("dark-mode:system", () => {
-  nativeTheme.themeSource = "system";
-});
-
+// IPC
+setIPCOptions();
 // App events
 // ==========
 app.whenReady().then(async () => {
   if (!isPord) {
-    // try {
-    //   await session.defaultSession.loadExtension(path.join(__dirname, "../..", "__extensions", "vue-devtools"));
-    // }
-    // catch (err) {
-    //   console.log("[Electron::loadExtensions] An error occurred: ", err);
-    // }
+    try {
+      await session.defaultSession.loadExtension(path.join(__dirname, "../..", "__extensions", "vue-devtools"));
+    }
+    catch (err) {
+      console.log("[Electron::loadExtensions] An error occurred: ", err);
+    }
   }
-
+  // 创建
   const mainWindow = createWindow();
   if (!mainWindow)
     return;
+  // 记录路由
+  BrowserWindowsMap.set(mainWindow.id, mainWindow);
+  mainWindowId = mainWindow.id;
+  mainWindow.on("close", (e) => {
+    e.preventDefault();
+    mainWindow.setSkipTaskbar(true);
+    mainWindow.hide();
+  });
+  mainWindow.on("closed", () => {
+    BrowserWindowsMap?.delete(mainWindowId);
+  });
+
   // 设置
   setMainOption(mainWindow);
 
@@ -110,17 +101,17 @@ app.whenReady().then(async () => {
       module(mainWindow);
     }
     catch (err: any) {
-      console.log("[!] Module error: ", err.message || err);
+      // console.log("[!] Module error: ", err.message || err);
     }
   });
 
-  console.log("[!] Loading modules: Done." + `\r\n${"-".repeat(30)}`);
+  // console.log("[!] Loading modules: Done." + `\r\n${"-".repeat(30)}`);
 
   app.on("activate", () => {
-    // On macOS it's common to re-create a window in the app when the
-    // dock icon is clicked and there are no other windows open.
-    // if (BrowserWindow.getAllWindows().length === 0) createWindow()
-    mainWindow.show();
+    if (BrowserWindow.getAllWindows().length === 0)
+      createWindow();
+    else
+      BrowserWindowsMap.get(mainWindowId)?.show();
   });
 });
 
@@ -139,7 +130,7 @@ app.setUserTasks([
   {
     program: process.execPath,
     arguments: "--new-window",
-    iconPath: process.execPath,
+    iconPath: path.join(__dirname, "../public/logo.png"), // 注意，这里的path是一个node模块哦，需要npm安装并且引入使用。最直接的作用就是拼接字符串。
     iconIndex: 0,
     title: "新窗口",
     description: "创建一个新窗口",

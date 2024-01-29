@@ -144,26 +144,14 @@ onBeforeUnmount(() => {
       <el-tag effect="dark" size="small">
         {{ getType }}
       </el-tag>
-      <!-- 主题 -->
-      <BtnTheme class="ml-a btn-primary" />
       <!-- 断开会话 -->
-      <!-- <i
+      <i
         v-if="ws.status === WsStatusEnum.OPEN"
         circle plain
-        class="cursor-pointer btn-danger"
+        class="ml-a cursor-pointer btn-danger"
         transition="all  op-60 group-hover:op-100 300  cubic-bezier(0.61, 0.225, 0.195, 1.3)"
         i-solar:power-bold
         p-2.2 @click="ws.close()"
-      /> -->
-      <!-- 退出登录 -->
-      <i
-        circle plain
-        class="cursor-pointer btn-danger"
-        transition="all  op-60 group-hover:op-100 300  cubic-bezier(0.61, 0.225, 0.195, 1.3)"
-        i-solar:logout-3-broken
-        p-2.2 @click="() => {
-          user.exitLogin();
-        }"
       />
       <!-- 查看群成员 -->
       <i
@@ -175,7 +163,7 @@ onBeforeUnmount(() => {
       />
     </h4>
     <!-- 消息列表 -->
-    <div class="relative mt-a flex-1 bg-light-5 shadow-sm dark:bg-dark-9">
+    <div class="relative flex-1 bg-light-5 shadow-sm dark:bg-dark-9">
       <el-scrollbar
         ref="scrollbarRef"
         class="stop-transition"
@@ -189,11 +177,8 @@ onBeforeUnmount(() => {
           开启聊天吧
         </div>
       </el-scrollbar>
-
       <!-- 发送 -->
-      <div flex flex-col>
-        <ChatMsgForm class="absolute bottom-0 left-0 z-2" @submit="onSendMsg" />
-      </div>
+      <ChatMsgForm class="absolute bottom-0 left-0 z-2" @submit="onSendMsg" />
     </div>
   </div>
 </template>

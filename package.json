@@ -3,17 +3,17 @@
   "author": "Kiwi2333",
   "description": "jiwu-mall-chat",
   "version": "1.0.0",
-  "private": false,
+  "private": true,
   "main": ".output/electron/background.js",
   "scripts": {
-    "dev": "nuxt dev -o",
-    "build": "nuxt generate",
+    "dev:nuxt": "nuxt dev -o",
+    "build:nuxt": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare && electron-builder install-app-deps",
     "transpile-electron": "tsc -p ./electron --outDir .output/electron",
     "dev:electron": "set NODE_ENV=development concurrently --kill-others \"nuxt dev\" \"tsc-watch -p ./electron --outDir .output/electron --onSuccess 'electron ./.output/electron/background.js'\"",
-    "dev:electron:win": "set NODE_ENV=development& concurrently --kill-others \"nuxt dev\" \"tsc-watch -p ./electron --outDir .output/electron --onSuccess run.electron\"",
-    "build:electron": "pnpm build && pnpm transpile-electron && node build.js"
+    "dev": "set NODE_ENV=development& concurrently --kill-others \"nuxt dev\" \"tsc-watch -p ./electron --outDir .output/electron --onSuccess run.electron\"",
+    "build": "pnpm build && pnpm transpile-electron && node build.js"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.43.1",

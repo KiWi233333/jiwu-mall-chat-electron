@@ -4,8 +4,11 @@ const user = useUserStore();
 async function toExistLogin() {
   ElMessageBox.confirm("是否确认退出登录？", "退出登录", {
     confirmButtonText: "确认退出",
+    confirmButtonClass: "el-button--danger",
     lockScroll: false,
     cancelButtonText: "取消",
+    center: true,
+
   }).then(async (action) => {
     if (action === "confirm") {
       await user.onUserExit(user.getToken);

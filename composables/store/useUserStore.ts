@@ -110,7 +110,9 @@ export const useUserStore = defineStore(
     function exitLogin() {
       ElMessageBox.confirm("是否确认退出登录？", "退出登录", {
         confirmButtonText: "确认退出",
+        confirmButtonClass: "el-button--danger",
         lockScroll: false,
+        center: true,
         cancelButtonText: "取消",
         type: "warning",
       })

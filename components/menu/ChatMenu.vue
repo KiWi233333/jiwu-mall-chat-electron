@@ -43,7 +43,6 @@ const menuList = [
     path: "/ai",
     icon: "i-solar:ghost-line-duotone",
     activeIcon: "i-solar:ghost-bold-duotone",
-    tipValue: computed(() => applyUnRead.value + ws.wsMsgList.applyMsg.length),
   },
   {
     title: "设置",
@@ -74,7 +73,17 @@ const setting = useSettingStore();
       <!-- 顶部 -->
       <div class="w-full flex-row-c-c flex-wrap px-5 transition-300 transition-300 sm:flex-row-bt-c hover:bg-transparent">
         <div class="home mt-6 self-center transition-300">
-          <CardElImage :src="BaseUrlImg + user.userInfo.avatar" class="relative z-100 h-2rem w-2rem border-default card-default" alt="头像" />
+          <ClientOnly>
+            <CardUserLine
+              :user-info="user.userInfo" :propver-props="{
+                placement: 'right-start',
+                trigger: 'hover',
+                offset: 30,
+              }"
+            >
+              <CardElImage :src="BaseUrlImg + user.userInfo.avatar" class="relative z-100 h-2rem w-2rem border-default card-default" alt="头像" />
+            </CardUserLine>
+          </ClientOnly>
         </div>
         <!-- 会话 -->
         <ChatContactBtn class="block sm:hidden" />
