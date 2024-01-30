@@ -123,6 +123,12 @@ function showInvitation() {
     });
 }
 
+function onBlur() {
+  setTimeout(() => {
+    isEditNickname.value = false;
+  }, 300);
+}
+
 onMounted(() => {
   nextTick(() => {
     userCopy.slogan = user?.slogan;
@@ -207,7 +213,7 @@ onMounted(() => {
             style="font-size: 0.9em; font-weight: 700"
             placeholder="修改用户昵称"
             @focus="isEditNickname = true"
-            @blur="isEditNickname = false"
+            @blur="onBlur()"
             @keyup.enter="submitUpdateUser('nickname')"
           />
           <el-button

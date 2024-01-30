@@ -13,15 +13,97 @@ watch(
     if (val) {
       // 获取用户信息
       user.onCheckLogin();
+      loadWs();
     }
     else {
       navigateTo("/login");
+      ws.webSocketHandler?.close(); // 关闭ws
     }
   },
   {
     immediate: true,
   },
 );
+
+const timer = ref();
+// 通知消息类型  WsMsgBodyType
+const noticeType = [
+  WsMsgBodyType.MESSAGE, // 普通消息
+];
+// 初始化
+function loadWs() {
+  ws.initDefault((e) => {
+    timer.value = setInterval(() => {
+      if (ws.status === WsStatusEnum.CLOSE) {
+        clearInterval(timer.value);
+        timer.value = null;
+        loadWs();
+      }
+      else {
+        // 心跳
+        ws.sendHeart();
+      }
+    }, 20000);
+    ws.onMessage((msg) => {
+      // 消息通知
+      if (ws.isWindBlur && noticeType.includes(msg.type)) {
+        const body = msg.data as ChatMessageVO;
+        useWebToast(
+          `${body.fromUser.nickName}:`, // 发送人
+        `${body.message.content}`, // 发送消息
+        {
+          icon: BaseUrlImg + body.fromUser.avatar,
+        });
+      }
+    });
+  });
+}
+// TODO: 单次运行是否失去焦点
+onMounted(() => {
+  if (!document)
+    return;
+  let hiddenProp: any, visibilityChange;
+  if (typeof document?.hidden !== "undefined") {
+    hiddenProp = "hidden";
+    visibilityChange = "visibilitychange";
+  }
+  // @ts-expect-error
+  else if (typeof document?.mozHidden !== "undefined") {
+    hiddenProp = "mozHidden";
+    visibilityChange = "mozvisibilitychange";
+  }
+  // @ts-expect-error
+  else if (typeof document?.msHidden !== "undefined") {
+    hiddenProp = "msHidden";
+    visibilityChange = "msvisibilitychange";
+  }
+  // @ts-expect-error
+  else if (typeof document?.webkitHidden !== "undefined") {
+    hiddenProp = "webkitHidden";
+    visibilityChange = "webkitvisibilitychange";
+  }
+
+  // 添加监听器
+  // @ts-expect-error
+  document?.addEventListener(visibilityChange, () => {
+    // @ts-expect-error
+    if (!document[hiddenProp])
+      ws.isWindBlur = false;
+    else
+      ws.isWindBlur = true;
+  }, false);
+});
+const route = useRoute();
+onUnmounted(() => {
+  if (route.path.startsWith("/login")) {
+    clearInterval(timer.value);
+    if (ws.webSocketHandler)
+      ws.webSocketHandler?.close();
+    timer.value = false;
+  }
+});
+
+
 // 同步修改系统
 watch(() => setting.settingPage.modeToggle.value, (val) => {
   // @ts-expect-error
@@ -80,7 +162,7 @@ useSeoMeta({
 </script>
 
 <template>
-  <div id="app" card-default>
+  <div id="app" card-default bg-color>
     <OtherLoading />
     <NuxtPage />
   </div>

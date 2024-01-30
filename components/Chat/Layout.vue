@@ -3,6 +3,30 @@
 import ContextMenu from "@imengyu/vue3-context-menu";
 import { WsMsgBodyType, WsStatusEnum } from "~/composables/types/WsType";
 
+// @unocss-include
+// 右键菜单
+const colorMode = useColorMode();
+function onContextMenu(e: MouseEvent) {
+  e.preventDefault();
+  const opt = {
+    x: e.x,
+    y: e.y,
+    theme: colorMode.preference === "dark" ? "mac dark" : "wind10",
+    items: [
+      {
+        icon: colorMode.preference === "light" ? "i-solar:moon-stars-bold-duotone  text-[var(--el-color-primary)]" : "i-solar:sun-bold text-[var(--el-color-warning)]",
+        shortcut: "Alt+K",
+        label: colorMode.preference === "dark" ? "切换日间" : "切换夜间",
+        onClick: () => {
+          useModeToggle(colorMode.preference === "dark" ? "light" : "dark", e);
+        },
+      },
+    ] as any,
+  };
+
+  ContextMenu.showContextMenu(opt);
+}
+
 
 const user = useUserStore();
 const ws = useWs();
@@ -28,7 +52,7 @@ function load() {
         // 心跳
         ws.sendHeart();
       }
-    }, 10000);
+    }, 20000);
     ws.onMessage((msg) => {
       // 消息通知
       if (ws.isWindBlur && noticeType.includes(msg.type)) {
@@ -43,78 +67,6 @@ function load() {
     });
   });
 }
-
-
-// TODO: 单次运行是否失去焦点
-onMounted(() => {
-  load();
-  if (!document)
-    return;
-  let hiddenProp: any, visibilityChange;
-  if (typeof document?.hidden !== "undefined") {
-    hiddenProp = "hidden";
-    visibilityChange = "visibilitychange";
-  }
-  // @ts-expect-error
-  else if (typeof document?.mozHidden !== "undefined") {
-    hiddenProp = "mozHidden";
-    visibilityChange = "mozvisibilitychange";
-  }
-  // @ts-expect-error
-  else if (typeof document?.msHidden !== "undefined") {
-    hiddenProp = "msHidden";
-    visibilityChange = "msvisibilitychange";
-  }
-  // @ts-expect-error
-  else if (typeof document?.webkitHidden !== "undefined") {
-    hiddenProp = "webkitHidden";
-    visibilityChange = "webkitvisibilitychange";
-  }
-
-  // 添加监听器
-  // @ts-expect-error
-  document?.addEventListener(visibilityChange, () => {
-    // @ts-expect-error
-    if (!document[hiddenProp])
-      ws.isWindBlur = false;
-    else
-      ws.isWindBlur = true;
-  }, false);
-});
-
-// @unocss-include
-// 右键菜单
-const colorMode = useColorMode();
-function onContextMenu(e: MouseEvent) {
-  e.preventDefault();
-  const opt = {
-    x: e.x,
-    y: e.y,
-    theme: colorMode.preference === "dark" ? "mac dark" : "wind10",
-    items: [
-      {
-        icon: colorMode.preference === "light" ? "i-solar:moon-stars-bold-duotone  text-[var(--el-color-primary)]" : "i-solar:sun-bold text-[var(--el-color-warning)]",
-        shortcut: "Alt+K",
-        label: colorMode.preference === "dark" ? "切换日间" : "切换夜间",
-        onClick: () => {
-          useModeToggle(colorMode.preference === "dark" ? "light" : "dark", e);
-        },
-      },
-    ] as any,
-  };
-
-  ContextMenu.showContextMenu(opt);
-}
-
-const route = useRoute();
-onUnmounted(() => {
-  if (route.path.startsWith("/login")) {
-    clearInterval(timer.value);
-    if (ws.webSocketHandler)
-      ws.webSocketHandler?.close();
-    timer.value = false;
-  }
-});
 </script>
 
 <template>
