@@ -9,7 +9,7 @@ defineProps({
 
 <template>
   <main>
-    <ChatLayout max-h-100vh max-w-100vw>
+    <ChatLayout>
       <slot />
     </ChatLayout>
   </main>

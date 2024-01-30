@@ -240,12 +240,9 @@ defineExpose({
       :auto-stop="false"
       :no-more="pageInfo.isLast"
       :loading="isLoading"
-      loading-class="mx-a mt-6 h-1rem w-1rem animate-[spin_2s_infinite_linear] rounded-4px bg-[var(--el-color-primary)] py-0.4em"
+      loading-class="mx-a my-3 h-1rem w-1rem animate-[spin_2s_infinite_linear] rounded-4px bg-[var(--el-color-primary)] py-0.4em"
       @load="loadData"
     >
-      <!-- <template #load>
-        <div />
-      </template> -->
       <!-- 消息适配器 -->
       <ChatMsgMain
         v-for="(msg, i) in chat.theContact.msgList"

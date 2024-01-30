@@ -8,7 +8,7 @@ function onToggleWindow(type: "min" | "max" | "close") {
 
 <template>
   <!-- 菜单栏 -->
-  <menu class="nav group h-2rem flex-row-bt-c select-none gap-4 border-0 border-b-1px rounded-b-0 px-4 border-default bg-color">
+  <menu class="nav group sticky left-0 top-0 h-2rem flex-row-bt-c select-none gap-4 border-0 border-b-1px rounded-b-0 px-4 border-default bg-color">
     <NuxtLink to="/" class="left flex-row-c-c gap-3 tracking-0.2em">
       <CardElImage src="./logo.png" class="h-1.6rem w-1.6rem" />
       <strong>极物圈</strong>
@@ -16,7 +16,7 @@ function onToggleWindow(type: "min" | "max" | "close") {
     <!-- 拖拽区域 -->
     <div style="-webkit-app-region: drag;flex: 1;height: 100%;" />
     <div class="flex flex-shrink-0 items-center gap-4">
-      <div class="g-hover-op-40 flex items-center gap-4 rounded-2rem px-2 py-1 border-default v-card">
+      <div class="flex items-center gap-4 rounded-2rem px-2 py-1 g-hover-op-40 border-default v-card">
         <!-- 主题 -->
         <BtnTheme class="btn-primary" />
         <!-- 退出登录 -->

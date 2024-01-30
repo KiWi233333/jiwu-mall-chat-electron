@@ -17,7 +17,7 @@ const activeMenu = ref<string>("帖 子");
       label="帖 子"
       class="animate__animated mt-2 animate-fade-in animate-duration-300" animate-duration-300
     >
-      <CommPostListSe :dto="{ userId: userId || user.userInfo?.id }" class="grid grid-gap-4" />
+      <!-- <CommPostListSe :dto="{ userId: userId || user.userInfo?.id }" class="grid grid-gap-4" /> -->
     </el-tab-pane>
     <!-- 相 关 -->
     <el-tab-pane

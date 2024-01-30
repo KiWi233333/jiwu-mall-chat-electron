@@ -130,7 +130,7 @@ app.setUserTasks([
   {
     program: process.execPath,
     arguments: "--new-window",
-    iconPath: path.join(__dirname, "../public/logo.png"), // 注意，这里的path是一个node模块哦，需要npm安装并且引入使用。最直接的作用就是拼接字符串。
+    iconPath: process.execPath,
     iconIndex: 0,
     title: "新窗口",
     description: "创建一个新窗口",

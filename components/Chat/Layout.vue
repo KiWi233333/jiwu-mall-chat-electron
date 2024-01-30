@@ -193,4 +193,8 @@ onUnmounted(() => {
 .main-box {
   padding: 0 !important;
 }
+.content {
+  overflow-y: scroll;
+  height: calc(100vh - $top-nav-height);
+}
 </style>

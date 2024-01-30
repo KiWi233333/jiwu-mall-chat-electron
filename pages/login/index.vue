@@ -11,6 +11,9 @@ definePageMeta({
   key: route => route.fullPath,
   layout: false,
 });
+onMounted(() => {
+  user.showLoginForm = true;
+});
 </script>
 
 <template>

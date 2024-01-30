@@ -170,14 +170,14 @@ definePageMeta({
 <template>
   <div>
     <NuxtLayout name="chat">
-      <section class="w-full p-4">
+      <section class="w-full flex flex-col p-4">
         <!-- header -->
         <p class="mb-4 text-[var(--el-color-primary)] font-600 tracking-0.2em">
           <i class="i-solar:ghost-bold mr-2 p-0.8em" />
           极物AI
         </p>
         <!-- 内容 -->
-        <el-scrollbar ref="scollRef" view-class="p-2 md:p-4" class="bg-light card-default dark:bg-dark-9">
+        <el-scrollbar ref="scollRef" view-class="h-full p-2 md:p-4" class="bg-light card-default dark:bg-dark-9">
           <div v-auto-animate relative flex flex-col>
             <!-- 消息适配器 -->
             <ChatMsgMain

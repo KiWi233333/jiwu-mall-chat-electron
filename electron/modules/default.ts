@@ -9,6 +9,11 @@ export function setMainOption(mainWindow: BrowserWindow) {
    * 初始化隐藏任务栏菜单
    */
   onInitTray(mainWindow);
+
+  /**
+   * 设置小窗功能按键
+   */
+  setPreWindowOpt(mainWindow);
 }
 
 export function setIPCOptions() {
@@ -103,3 +108,20 @@ function onInitTray(mainWindow: BrowserWindow) {
 }
 
 
+// 设置小窗 按钮
+function setPreWindowOpt(win: BrowserWindow) {
+// 预览小窗
+  win.setThumbarButtons([
+    // {
+    //   tooltip: "button1",
+    //   icon: nativeImage.createFromPath(path.join(__dirname, "button1.png")),
+    //   click() { console.log("button1 clicked"); },
+    // },
+    // {
+    //   tooltip: "button2",
+    //   icon: nativeImage.createFromPath(path.join(__dirname, "button2.png")),
+    //   flags: ["enabled", "dismissonclick"],
+    //   click() { console.log("button2 clicked."); },
+    // },
+  ]);
+}

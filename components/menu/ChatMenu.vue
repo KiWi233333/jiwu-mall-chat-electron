@@ -45,6 +45,12 @@ const menuList = [
     activeIcon: "i-solar:ghost-bold-duotone",
   },
   {
+    title: "个人",
+    path: "/user",
+    icon: "i-solar:user-linear",
+    activeIcon: "i-solar:user-bold-duotone",
+  },
+  {
     title: "设置",
     path: "/setting",
     icon: "i-solar:settings-linear",
@@ -56,7 +62,7 @@ const setting = useSettingStore();
 
 <template>
   <div
-    class="menu relative z-998 h-full max-w-1/2 bg-light bg-opacity-80 transition-300 transition-width md:block dark:bg-[#121212] md:shadow-none"
+    class="menu relative z-998 h-auto max-w-1/2 bg-light bg-opacity-80 transition-300 transition-width md:block dark:bg-[#121212] md:shadow-none"
     :class="{
       'max-w-0': setting.showChatMenu,
     }"
@@ -137,9 +143,10 @@ const setting = useSettingStore();
 <style lang="scss" scoped>
 .menu {
   user-select: none;
+  position: sticky;
   top: 0;
   left: 0;
-  height: 100%;
+  height: calc(100vh - $top-nav-height);
   :deep(.el-menu--popup-container),
   :deep(.el-menu) {
     height: 100%;

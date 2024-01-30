@@ -80,7 +80,7 @@ useSeoMeta({
 </script>
 
 <template>
-  <div id="app">
+  <div id="app" card-default>
     <OtherLoading />
     <NuxtPage />
   </div>
@@ -97,13 +97,11 @@ useSeoMeta({
 
 .page-enter-from,
 .page-leave-to {
-  opacity: 0;
   filter: blur(4px) contrast(4);
 }
 
 .dark .page-enter-from,
 .dark .page-leave-to {
-  opacity: 0.7;
-  filter: none;
+  filter: blur(4px);
 }
 </style>
