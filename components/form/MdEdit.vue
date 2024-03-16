@@ -17,7 +17,7 @@ const props = withDefaults(
 );
 const emit = defineEmits(["update:modelValue", "update:pathList", "submit"]);
 
-const preIamgePath = "https://jiwu.api.kiwi2333.top/res/";
+const preIamgePath = "https://api.jiwu.kiwi2333.top/res/";
 const user = useUserStore();
 const rawPathList = ref<string[]>([]);
 

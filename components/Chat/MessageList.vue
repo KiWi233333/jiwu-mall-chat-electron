@@ -71,7 +71,9 @@ function reload() {
   chat.scrollTopSize = 0;
   loadData(() => {
     // 滚动到底部
-    chat.scrollBottom();
+    setTimeout(() => {
+      chat.scrollBottom();
+    }, 300);
   });
 }
 /**
