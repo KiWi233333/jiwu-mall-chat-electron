@@ -54,18 +54,17 @@ function onWindowOptions(mainWindow: BrowserWindow) {
 // 接收最小化命令
   ipcMain.handle("window-toggle", (e, type: "min" | "max" | "close") => {
     if (type === "max") {
-      if (mainWindow.isMaximized() || mainWindow.fullScreen)
-        mainWindow.reload();
+      if (mainWindow.isMaximized())
+        mainWindow.restore();
       else
         mainWindow.maximize();
     }
-
     else if (type === "min") {
       mainWindow.minimize();
     }
 
     else if (type === "close") {
-      mainWindow.hide();
+      mainWindow.close();
     }
   });
 }

@@ -69,6 +69,7 @@ export const useSettingStore = defineStore(
           { name: "夜间", value: "dark" },
         ],
       },
+      isColseAllTransition: false, // 是否关闭所有动画效果，包括页面切换动画和组件动画。
     });
     const isChatFold = ref(false);
     const isThemeChangeLoad = ref(false);

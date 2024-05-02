@@ -87,9 +87,8 @@ html.stop-transition {
 html.stop-transition-all {
   * {
     transition: none !important;
-    animation: none !important;
-    filter: none !important;
     backdrop-filter: none !important;
+    animation: none !important;
   }
 }
 
@@ -399,5 +398,450 @@ html.stop-transition-all {
   }
   100% {
     transform: translateX(0%);
+  }
+}
+
+// 加载动画
+.load-alexruix {
+  width: 1.5em;
+  height: 1.5em;
+  margin: auto;
+  position: relative;
+
+  &:before {
+    content: "";
+    width: 1.5em;
+    height: 0.2em;
+    background: var(--el-color-primary-light-3);
+    position: absolute;
+    top: 2.2em;
+    left: 0;
+    border-radius: 50%;
+    animation: shadow324 0.5s linear infinite;
+  }
+
+  &:after {
+    content: "";
+    width: 100%;
+    height: 100%;
+    background: var(--el-color-primary);
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 0.4em;
+    animation: jump7456 0.5s linear infinite;
+  }
+
+  @keyframes jump7456 {
+    15% {
+      border-bottom-right-radius: 0.4em;
+    }
+
+    25% {
+      transform: translateY(0.5em) rotate(22.5deg);
+    }
+
+    50% {
+      transform: translateY(1em) scale(1, 0.9) rotate(45deg);
+      border-bottom-right-radius: 1.5em;
+    }
+
+    75% {
+      transform: translateY(0.5em) rotate(67.5deg);
+    }
+
+    100% {
+      transform: translateY(0) rotate(90deg);
+    }
+  }
+
+  @keyframes shadow324 {
+    0%,
+    100% {
+      transform: scale(1, 1);
+    }
+
+    50% {
+      transform: scale(1.2, 1);
+    }
+  }
+}
+// 双方块动画
+.load-db-rule {
+  --size: 1em;
+  --first-block-clr: var(--el-color-info);
+  --second-block-clr: var(--el-color-warning);
+  --block-radius: 0.2em;
+  --clr: #111;
+  width: 1em;
+  height: 1em;
+  position: relative;
+
+  &::after,
+  &::before {
+    border-radius: var(--block-radius);
+    box-sizing: border-box;
+    position: absolute;
+    content: "";
+    width: var(--size);
+    height: var(--size);
+    top: 50%;
+    animation: up 2.4s cubic-bezier(0, 0, 0.24, 1.21) infinite;
+    left: 50%;
+    background: var(--first-block-clr);
+  }
+
+  &::after {
+    background: var(--second-block-clr);
+    top: calc(50% - var(--size));
+    left: calc(50% - var(--size));
+    animation: down 2.4s cubic-bezier(0, 0, 0.24, 1.21) infinite;
+  }
+
+  @keyframes down {
+    0%,
+    100% {
+      transform: none;
+    }
+
+    25% {
+      transform: translateX(100%);
+    }
+
+    50% {
+      transform: translateX(100%) translateY(100%);
+    }
+
+    75% {
+      transform: translateY(100%);
+    }
+  }
+
+  @keyframes up {
+    0%,
+    100% {
+      transform: none;
+    }
+
+    25% {
+      transform: translateX(-100%);
+    }
+
+    50% {
+      transform: translateX(-100%) translateY(-100%);
+    }
+
+    75% {
+      transform: translateY(-100%);
+    }
+  }
+}
+// 语音聊天球load
+.load-popper-cy {
+  background-image: linear-gradient(rgb(186, 66, 255) 35%, rgb(0, 225, 255));
+  width: 2em;
+  height: 2em;
+  animation: spinning82341 1.7s linear infinite;
+  text-align: center;
+  border-radius: 50%;
+  filter: blur(1px);
+  box-shadow:
+    0px -0.2em 0.6em 0px rgb(186, 66, 255),
+    0px 0.2em 0.6em 0px rgb(0, 225, 255);
+  div {
+    content: "";
+    background-color: rgb(36, 36, 36);
+    width: 2em;
+    height: 2em;
+    border-radius: 50%;
+    filter: blur(0.6em);
+  }
+
+  @keyframes spinning82341 {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+.load-empty-circle {
+  position: relative;
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    border-radius: inherit;
+  }
+
+  &::before {
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(0deg, #ff00cc 0%, var(--el-color-primary) 100%);
+    animation: loadCircleAnima 0.5s infinite linear;
+  }
+
+  &::after {
+    width: 85%;
+    height: 85%;
+    background-color: var(--el-bg-color-page);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  @keyframes loadCircleAnima {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+}
+// 双球load
+.load-chaotic-orbit {
+  --uib-size: 1em;
+  --uib-speed: 1.5s;
+  --uib-color: var(--el-color-primary);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--uib-size);
+  width: var(--uib-size);
+  animation: rotate936 calc(var(--uib-speed) * 1.667) infinite linear;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    height: 60%;
+    width: 60%;
+    border-radius: 50%;
+    background-color: var(--uib-color);
+    will-change: transform;
+    flex-shrink: 0;
+  }
+
+  &::before {
+    animation: orbit var(--uib-speed) linear infinite;
+  }
+
+  &::after {
+    animation: orbit var(--uib-speed) linear calc(var(--uib-speed) / -2) infinite;
+  }
+
+  @keyframes rotate936 {
+    0% {
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes orbit {
+    0% {
+      transform: translate(calc(var(--uib-size) * 0.5)) scale(0.73684);
+      opacity: 0.65;
+    }
+
+    5% {
+      transform: translate(calc(var(--uib-size) * 0.4)) scale(0.684208);
+      opacity: 0.58;
+    }
+
+    10% {
+      transform: translate(calc(var(--uib-size) * 0.3)) scale(0.631576);
+      opacity: 0.51;
+    }
+
+    15% {
+      transform: translate(calc(var(--uib-size) * 0.2)) scale(0.578944);
+      opacity: 0.44;
+    }
+
+    20% {
+      transform: translate(calc(var(--uib-size) * 0.1)) scale(0.526312);
+      opacity: 0.37;
+    }
+
+    25% {
+      transform: translate(0%) scale(0.47368);
+      opacity: 0.3;
+    }
+
+    30% {
+      transform: translate(calc(var(--uib-size) * -0.1)) scale(0.526312);
+      opacity: 0.37;
+    }
+
+    35% {
+      transform: translate(calc(var(--uib-size) * -0.2)) scale(0.578944);
+      opacity: 0.44;
+    }
+
+    40% {
+      transform: translate(calc(var(--uib-size) * -0.3)) scale(0.631576);
+      opacity: 0.51;
+    }
+
+    45% {
+      transform: translate(calc(var(--uib-size) * -0.4)) scale(0.684208);
+      opacity: 0.58;
+    }
+
+    50% {
+      transform: translate(calc(var(--uib-size) * -0.5)) scale(0.73684);
+      opacity: 0.65;
+    }
+
+    55% {
+      transform: translate(calc(var(--uib-size) * -0.4)) scale(0.789472);
+      opacity: 0.72;
+    }
+
+    60% {
+      transform: translate(calc(var(--uib-size) * -0.3)) scale(0.842104);
+      opacity: 0.79;
+    }
+
+    65% {
+      transform: translate(calc(var(--uib-size) * -0.2)) scale(0.894736);
+      opacity: 0.86;
+    }
+
+    70% {
+      transform: translate(calc(var(--uib-size) * -0.1)) scale(0.947368);
+      opacity: 0.93;
+    }
+
+    75% {
+      transform: translate(0%) scale(1);
+      opacity: 1;
+    }
+
+    80% {
+      transform: translate(calc(var(--uib-size) * 0.1)) scale(0.947368);
+      opacity: 0.93;
+    }
+
+    85% {
+      transform: translate(calc(var(--uib-size) * 0.2)) scale(0.894736);
+      opacity: 0.86;
+    }
+
+    90% {
+      transform: translate(calc(var(--uib-size) * 0.3)) scale(0.842104);
+      opacity: 0.79;
+    }
+
+    95% {
+      transform: translate(calc(var(--uib-size) * 0.4)) scale(0.789472);
+      opacity: 0.72;
+    }
+
+    100% {
+      transform: translate(calc(var(--uib-size) * 0.5)) scale(0.73684);
+      opacity: 0.65;
+    }
+  }
+}
+
+/* 单个 */
+[data-fade] {
+  --lv: 0;
+  --delay: 0.1s;
+  --start: 0ms;
+  --anima: latter-slice-top;
+}
+@for $i from 1 through 20 {
+  [data-fades] > *:nth-child(#{$i}) {
+    --lv: #{$i};
+  }
+}
+
+/* 段落 */
+[data-fades] > * {
+  --lv: 0;
+  --delay: 0.1s;
+  --start: 0ms;
+  --anima: latter-slice-top;
+  animation: var(--anima) 0.5s both;
+  animation-delay: calc(var(--start) + var(--lv) * var(--delay));
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-fades] > *,
+  [data-fade] {
+    animation: var(--anima) 0.5s both;
+    animation-delay: calc(var(--lv) * var(--delay) + var(--start));
+  }
+}
+
+[data-fade-controller="false"][data-fade] {
+  animation: none;
+}
+[data-fades-controller="false"][data-fades] > * {
+  animation: none;
+}
+
+/* 渐进动画 下进入 */
+@keyframes latter-slice-top {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    transform: none;
+  }
+}
+/* 渐进动画 */
+@keyframes latter-slice-left {
+  0% {
+    opacity: 0;
+    transform: translateX(12px);
+  }
+  to {
+    transform: none;
+  }
+}
+@keyframes latter-slice-right {
+  0% {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+  to {
+    transform: none;
+  }
+}
+
+/* sky-loading 骨架屏 */
+.sky-loading {
+  background-color: #edededb4;
+  background: linear-gradient(
+      100deg,
+      rgba(255, 255, 255, 0) 40%,
+      rgba(255, 255, 255, 0.5) 50%,
+      rgba(255, 255, 225, 0) 60%
+    )
+    #edededb4;
+  background-size: 200% 100%;
+  background-position-x: 120%;
+  animation: 1s sky-loading ease-in-out infinite;
+}
+.dark .sky-loading {
+  background-color: #1d1d1d00;
+  background: linear-gradient(100deg, rgba(17, 17, 17, 0) 40%, rgba(60, 60, 60, 0.4) 50%, rgba(255, 255, 225, 0) 60%)
+    transparent;
+  background-size: 200% 100%;
+  background-position-x: 120%;
+  animation: 1s sky-loading ease-in-out infinite;
+}
+@keyframes sky-loading {
+  to {
+    background-position-x: -20%;
   }
 }

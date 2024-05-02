@@ -14,13 +14,14 @@ const props = withDefaults(defineProps<{
   loading: false,
   ssr: true,
   autoStop: true,
-  delay: 400,
+  delay: 500,
   loadingClass: "mx-a my-0.6em h-1.4rem w-1.4rem animate-[spin_2s_infinite_linear] rounded-6px bg-[var(--el-color-primary)]",
   appendLoadingClass: "",
 });
 const emit = defineEmits(["load"]);
 // 停止加载
 const loadMoreRef = ref();
+const isSee = ref(props.immediate);
 // 首次执行
 onMounted(() => {
   if (props.immediate)
@@ -28,50 +29,45 @@ onMounted(() => {
 });
 // 定时器
 let timer: any = null;
+const showLoad = computed(() => {
+  return props.loading || !props.noMore;
+});
 // 刷新
 const { stop, isSupported } = useIntersectionObserver(
   loadMoreRef,
   ([obj]) => {
-    if (obj.isIntersecting) {
-      clearInterval(timer);
-      callBack && callBack();
-      timer = setInterval(callBack, props.delay * 2);
-    }
-    else {
-      clearInterval(timer);
-      clearTimeout(timer);
-    }
+    isSee.value = obj.isIntersecting;
+    callBack();
   },
 );
+
+// 监听
+watch(isSee, (val) => {
+  if (!val)
+    return;
+  callBack();
+});
+
+
 function callBack() {
-  if (props.noMore && props.autoStop) {
-    cancelAnimationFrame(timer);
-    clearInterval(timer);
-    stop && stop();
-  }
-  else {
+  if (showLoad.value && isSee.value) {
+    timer = setTimeout(callBack, props.delay * 2);
     emit("load");
+  }
+  else if (props.noMore && props.autoStop) {
+    stop && stop();
+    clearTimeout(timer);
   }
 }
 
-if (props.immediate)
-  emit("load");
-
+onMounted(() => {
+  if (props.immediate)
+    emit("load");
+});
 onUnmounted(() => {
-  cancelAnimationFrame(timer);
-  clearInterval(timer);
+  clearTimeout(timer);
   stop();
   timer = null;
-});
-watch(() => props.noMore, (val) => {
-  if (val && props.autoStop) {
-    cancelAnimationFrame(timer);
-    stop && stop();
-  }
-});
-
-const showLoad = computed(() => {
-  return props.loading || !props.noMore;
 });
 defineExpose({
   stop,
@@ -99,9 +95,7 @@ defineExpose({
   <!-- 完成 -->
   <div v-else class="animate-fade-in">
     <slot name="done">
-      <div v-if="!noMore && !loading " key="done" h-2 w-full text-center text-bluegray @click="!isSupported && $emit('load')">
-        <!-- 暂无更多 -->
-      </div>
+      <div v-if="!noMore " key="done" h-2 w-full text-center text-bluegray @click="!isSupported && $emit('load')" />
     </slot>
   </div>
 </template>

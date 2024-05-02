@@ -179,7 +179,7 @@ defineExpose({
             class="right flex-1 pb-2rem"
             style="display: flex;;flex-direction: column;"
           >
-            <el-scrollbar style="width: 100%;" height="300px" view-class="min-h-full bg-light items-start w-full v-card grid grid-cols-5 gap-4 p-2 dark:bg-dark-9 mt-0">
+            <el-scrollbar style="width: 100%;" height="300px" view-class="min-h-full bg-light items-start w-full v-card grid md:grid-cols-5 gap-4 p-2 dark:bg-dark-9 mt-0">
               <div v-for="p in getCheckList" :key="p.userId" class="item relative flex-col truncate p-2" :label="p.userId">
                 <i i-solar:close-circle-bold p-2 btn-primary class="absolute right-0 top-0 z-1" @click="remove(p.userId)" />
                 <div class="avatar-icon">

@@ -1,5 +1,6 @@
 /* eslint-disable @stylistic/js/spaced-comment */
 import { acceptHMRUpdate, defineStore } from "pinia";
+import type { ChatContactVO } from "../api/chat/contact";
 import type { ChatContactPageDTO } from "~/components/Chat/ContactTabs.vue";
 
 enum FriendOptType {

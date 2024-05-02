@@ -17,23 +17,20 @@ onMounted(() => {
 </script>
 
 <template>
-  <div h-100vh w-100vw flex-row-c-c border-default card-default>
-    <NuxtLayout name="default">
-      <div>
-        <div
-          v-auto-animate
-          tag="div"
-          name="popup"
-          class="forms"
-          relative
-        >
-          <!-- 登录 -->
-          <FormLoginForm v-if="user.showLoginForm" key="login-form" />
-          <!-- 注册 -->
-          <FormRegisterForm v-else-if="user.showRegisterForm" key="register-form" />
-        </div>
-      </div>
-    </NuxtLayout>
+  <div
+    v-auto-animate
+    class="forms flex-row-c-c"
+  >
+    <!-- 登录 -->
+    <FormLoginForm
+      v-if="user.showLoginForm"
+      key="login-form" class="rounded-6px bg-white shadow-2xl border-default dark:bg-dark-7"
+    />
+    <!-- 注册 -->
+    <FormRegisterForm
+      v-else-if="user.showRegisterForm"
+      key="register-form" class="rounded-6px bg-white shadow-2xl border-default dark:bg-dark-7"
+    />
   </div>
 </template>
 
@@ -42,18 +39,12 @@ onMounted(() => {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1002;
-  background-color: rgba(70, 70, 70, 0.3);
-  backdrop-filter: blur(4px);
-  width: 100vw;
-  height: 100vh;
+  background-color: transparent;
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.dark .forms {
-  background-color: rgba(20, 20, 20, 0.4);
 }
 .fadeInOutShadow-enter-active {
   animation: 0.2s fadeIn $animate-cubic;

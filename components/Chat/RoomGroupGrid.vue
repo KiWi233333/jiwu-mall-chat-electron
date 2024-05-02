@@ -2,7 +2,7 @@
 import ContextMenu from "@imengyu/vue3-context-menu";
 import { type ChatRoomAdminAddDTO, ChatRoomRoleEnum, ChatRoomRoleEnumMap } from "~/composables/api/chat/room";
 
-const chatRoomRoleEnumMap = ChatRoomRoleEnumMap;
+const props = defineProps<{ data: ChatContactVO }>();
 const ws = useWs();
 const chat = useChatStore();
 const setting = useSettingStore();
@@ -19,11 +19,10 @@ chat.onOfflineList.splice(0);
  * 加载数据
  */
 async function loadData() {
-  if (isLoading.value || pageInfo.value.isLast || chat.theContact.type !== RoomType.GROUP)
+  if (isLoading.value || pageInfo.value.isLast || props.data.type !== RoomType.GROUP)
     return;
   isLoading.value = true;
-  const { data } = await getRoomGroupUserPage(chat.theContact.roomId, pageInfo.value.size, pageInfo.value.cursor, user.getToken);
-
+  const { data } = await getRoomGroupUserPage(props.data.roomId, pageInfo.value.size, pageInfo.value.cursor, user.getToken);
   pageInfo.value.isLast = data.isLast;
   pageInfo.value.cursor = data.cursor;
   if (data.list)
@@ -50,14 +49,14 @@ const isShowApply = ref();
 
 // 权限
 const getTheRoleType = computed(() => {
-  return chat.theContact?.member?.role;
+  return props.data?.member?.role;
 });
 const isTheGroupOwner = computed(() => {
-  return chat.theContact?.member?.role === ChatRoomRoleEnum.OWNER;
+  return props.data?.member?.role === ChatRoomRoleEnum.OWNER;
 });
 // 是否有权限（踢出群聊、）
 const isTheGroupPermission = computed(() => {
-  return chat.theContact?.member?.role === ChatRoomRoleEnum.OWNER || chat.theContact?.member?.role === ChatRoomRoleEnum.ADMIN;
+  return props.data?.member?.role === ChatRoomRoleEnum.OWNER || props.data?.member?.role === ChatRoomRoleEnum.ADMIN;
 });
 
 const colorMode = useColorMode();
@@ -125,7 +124,7 @@ function onContextMenu(e: MouseEvent, item: ChatMemberVO) {
             onClick: () => {
               toggleAdminRole({
                 userId: item.userId,
-                roomId: chat.theContact.roomId,
+                roomId: props.data.roomId,
               }, ChatRoomRoleEnum.ADMIN);
             },
           },
@@ -136,7 +135,7 @@ function onContextMenu(e: MouseEvent, item: ChatMemberVO) {
             onClick: () => {
               toggleAdminRole({
                 userId: item.userId,
-                roomId: chat.theContact.roomId,
+                roomId: props.data.roomId,
               }, ChatRoomRoleEnum.MEMBER);
             },
           },
@@ -171,7 +170,7 @@ function onContextMenu(e: MouseEvent, item: ChatMemberVO) {
             lockScroll: false,
             callback: async (action: string) => {
               if (action === "confirm") {
-                const res = await exitRoomGroupByUid(chat.theContact.roomId, item.userId, user.getToken);
+                const res = await exitRoomGroupByUid(props.data.roomId, item.userId, user.getToken);
                 if (res.code === StatusCode.SUCCESS) {
                   ElNotification.success("踢出成功！");
                   chat.onOfflineList = chat.onOfflineList.filter(e => e.userId !== item.userId);
@@ -213,8 +212,8 @@ function toggleAdminRole(dto: ChatRoomAdminAddDTO, type: ChatRoomRoleEnum) {
   });
 }
 
-watchDebounced(() => chat.theContact.roomId, (val) => {
-  if (val && chat.theContact.type === RoomType.GROUP)
+watchDebounced(() => props.data.roomId, (val) => {
+  if (val && props.data.type === RoomType.GROUP)
     reload();
 });
 /**
@@ -253,7 +252,7 @@ function onAdd() {
   if (ChatNewGroupDialogRef.value) {
     ChatNewGroupDialogRef.value?.reload();
     if (ChatNewGroupDialogRef.value?.form)
-      ChatNewGroupDialogRef.value.form.roomId = chat.theContact.roomId;
+      ChatNewGroupDialogRef.value.form.roomId = props.data.roomId;
     showAddDialog.value = true;
   }
 };
@@ -268,11 +267,11 @@ function exitGroup() {
     lockScroll: false,
     callback: async (action: string) => {
       if (action === "confirm") {
-        const res = await exitRoomGroup(chat.theContact.roomId, user.getToken);
+        const res = await exitRoomGroup(props.data.roomId, user.getToken);
         if (res.code === StatusCode.SUCCESS) {
           ElNotification.success("操作成功！");
           chat.setContact();
-          chat.contactList = chat.contactList.filter((e: ChatContactVO) => e.roomId !== chat.theContact.roomId);
+          chat.contactList = chat.contactList.filter((e: ChatContactVO) => e.roomId !== props.data.roomId);
         }
       }
     },
@@ -282,62 +281,50 @@ function exitGroup() {
 
 <template>
   <div
-    v-if="chat.theContact.type === RoomType.GROUP && setting.isOpenGroupMember"
+    v-if="data.type === RoomType.GROUP && setting.isOpenGroupMember"
     v-bind="$attrs"
-    class="group flex flex-col animate-[fade-in-right_300ms] gap-2 border-(0 l-1px default) p-0 transition-200 transition-width sm:(relative w-1/5 flex-col p-4)"
   >
-    <div flex-row-bt-c flex-col gap-4 truncate pb-1rem pt-2 sm:flex-row>
+    <div flex-row-bt-c class="mx-a w-3/4 pb-4">
       <i class="sm:(h-1.8em w-1.8em)" />
       <span>
         群成员
       </span>
-      <div class="rounded-2rem p-1.5 transition-all border-default sm:border-0 group-hover:op-100 sm:op-0">
-        <i class="block h-1.8em w-1.8em rounded-2rem btn-info sm:(h-1.6em w-1.6em) border-default" i-carbon:add-large @click="onAdd" />
-      </div>
+      <i class="block h-1.8em w-1.8em rounded-2rem btn-info sm:(h-1.6em w-1.6em) border-default" i-carbon:add-large @click="onAdd" />
     </div>
     <el-scrollbar
       height="100%"
-      class="mx-a h-70vh max-w-full w-fit w-full rounded-4rem md:(w-full) sm:rounded-1rem"
       view-class="max-w-full mx-a  tracking-0.1em flex flex-col gap-2"
       wrap-class="w-full mx-a"
     >
       <ListAutoIncre
         :immediate="true"
         :auto-stop="true"
-        :no-more="pageInfo.isLast"
+        :no-more="!isLoading && pageInfo.isLast"
         loading-class="mx-a mb-2 h-1rem w-1rem animate-[spin_2s_infinite_linear] rounded-4px bg-[var(--el-color-primary)] py-2"
         :loading="isLoading"
         @load="loadData"
       >
-        <div
-          v-for="p in merberList" :key="p.userId"
-          :class="p.activeStatus === ChatOfflineType.ONLINE ? 'live' : 'op-50 filter-grayscale filter-grayscale-100 '"
-          class="user-card flex-shrink-0"
-          @contextmenu="onContextMenu($event, p)"
-          @click="onContextMenu($event, p)"
-        >
-          <div class="relative flex-row-c-c">
-            <CardElImage
-              :src="BaseUrlImg + p.avatar" fit="cover"
-              class="h-2.2em w-2.2em flex-shrink-0 overflow-auto rounded-1/2 object-cover border-default"
-            />
-            <span class="g-avatar" />
-          </div>
-          <small hidden truncate md:inline-block>{{ p.nickName || "未填写" }}</small>
-          <div class="tags ml-a block hidden pl-1 sm:block">
-            <el-tag v-if="p.userId === user.userInfo.id" class="mr-1" style="font-size: 0.6em;" size="small" type="warning">
-              我
-            </el-tag>
-            <el-tag v-if="p.roleType !== null && p.roleType !== ChatRoomRoleEnum.MEMBER" class="mr-1" style="font-size: 0.6em;" size="small" effect="dark" type="info">
-              {{ chatRoomRoleEnumMap[p.roleType || ChatRoomRoleEnum.MEMBER] }}
-            </el-tag>
+        <div class="grid cols-4 mx-a sm:(cols-6 w-2/3 gap-4)">
+          <div
+            v-for="p in merberList"
+            :key="p.userId"
+            :class="p.activeStatus === ChatOfflineType.ONLINE ? 'live' : 'op-50 filter-grayscale filter-grayscale-100 '"
+            class="flex-row-c-c flex-col p-2 btn-primary-bg"
+            @contextmenu="onContextMenu($event, p)"
+            @click="chat.setTheFriendOpt(FriendOptType.User, {
+              id: p.userId,
+            })"
+          >
+            <div relative h-3.8em w-3.8em>
+              <CardElImage
+                :src="BaseUrlImg + p.avatar" fit="cover"
+                class="h-full w-full border-default v-card"
+              />
+              <span class="g-avatar" />
+            </div>
+            <small mx-a mt-2 w-5em truncate text-center>{{ p.nickName }}</small>
           </div>
         </div>
-        <template #done>
-          <p mx-a hidden truncate text-center text-0.8em op-60 sm:block>
-            暂无更多
-          </p>
-        </template>
       </ListAutoIncre>
     </el-scrollbar>
     <btn-el-button class="op-0 group-hover:op-100" icon-class="i-solar:logout-3-broken mr-2" round type="danger" plain @click="exitGroup()">
@@ -357,8 +344,8 @@ function exitGroup() {
 <style lang="scss" scoped>
 .g-avatar {
   display: block;
-  width: 0.4em;
-  height: 0.4em;
+  width: 0.6em;
+  height: 0.6em;
   border-radius: 50%;
   position: absolute;
   right: 0.2em;
@@ -367,7 +354,7 @@ function exitGroup() {
   z-index: 1;
 }
 .user-card {
-  --at-apply:'h-fit p-1.5 relative w-fit flex items-center gap-1 truncate rounded-2rem filter-grayscale transition-300 transition-all sm:w-full active:scale-96 border-default hover:(border-[var(--el-color-primary)] bg-white op-100 shadow shadow-inset dark:bg-dark-9)'
+  --at-apply: "";
 }
 .live {
   position: relative;

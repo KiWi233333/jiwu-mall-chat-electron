@@ -20,45 +20,46 @@ const setting = useSettingStore();
     <NuxtLayout
       name="chat"
     >
-      <!-- 好友列表 -->
-      <div
-        :class="setting.showChatMenu ? 'pl-0 ' : 'absolute w-full pl-5rem '"
-        class="transition-all sm:(relative mx-auto w-1/4 p-0) card-default"
-      >
-        <ChatFriendTabs class="relative mx-a h-100vh flex-shrink-0 p-4 sm:h-full" />
-      </div>
-      <div
-        class="relative z-1 h-full flex-1 flex-shrink-0 flex-col sm:w-3/4 card-default"
-        :class="chat.showTheFriendPanel ? 'flex' : 'hidden sm:flex'"
-      >
-        <btn-el-button
-          icon-class="i-solar:power-bold"
-          transition-icon
-          size="small"
-          class="absolute right-1rem top-1rem z-2 block sm:hidden"
-          @click="chat.showTheFriendPanel = false"
-        >
-          关闭
-        </btn-el-button>
-        <!-- 面板 -->
-        <ChatFriendMainType
-          v-if="chat.theFriendOpt.type !== FriendOptType.Empty"
-          :data="chat.theFriendOpt"
-          class="mx-a h-full w-full flex-1 flex-shrink-0 bg-color"
-        />
+      <div class="relative flex flex-1">
+        <!-- 好友列表 -->
         <div
-          v-else
-          class="flex-row-c-c flex-1 flex-shrink-0 bg-color"
+          class="w-full transition-all sm:(relative mx-auto w-1/4 p-0) card-default"
         >
-          <ElEmpty
-            mt-10
-            :image-size="80"
-            description="找到你想要聊天的朋友吧"
+          <ChatFriendTabs class="relative mx-a h-full flex-shrink-0 p-4" />
+        </div>
+        <div
+          class="z-1 h-full flex-1 flex-shrink-0 flex-col sm:w-3/4 card-default"
+          :class="chat.showTheFriendPanel ? 'flex absolute sm:(p-0 relative) left-0 w-full' : 'hidden sm:flex'"
+        >
+          <btn-el-button
+            icon-class="i-solar:power-bold"
+            transition-icon
+            size="small"
+            class="absolute right-1rem top-1rem z-2 block sm:hidden"
+            @click="chat.showTheFriendPanel = false"
           >
-            <template #image>
-              <i i-solar:users-group-two-rounded-bold-duotone p-2rem op-40 />
-            </template>
-          </ElEmpty>
+            关闭
+          </btn-el-button>
+          <!-- 面板 -->
+          <ChatFriendMainType
+            v-if="chat.theFriendOpt.type !== FriendOptType.Empty"
+            :data="chat.theFriendOpt"
+            class="mx-a h-full w-full flex-1 flex-shrink-0 bg-color"
+          />
+          <div
+            v-else
+            class="flex-row-c-c flex-1 flex-shrink-0 bg-color"
+          >
+            <ElEmpty
+              mt-10
+              :image-size="80"
+              description="找到你想要聊天的朋友吧"
+            >
+              <template #image>
+                <i i-solar:users-group-two-rounded-bold-duotone p-2rem op-40 />
+              </template>
+            </ElEmpty>
+          </div>
         </div>
       </div>
     </NuxtLayout>

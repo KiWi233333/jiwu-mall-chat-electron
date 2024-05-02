@@ -67,6 +67,17 @@ function load() {
     });
   });
 }
+// 退出登录时候
+watch(
+  () => user.isLogin,
+  async (val) => {
+    if (val)
+      load();
+  },
+  {
+    immediate: true,
+  },
+);
 </script>
 
 <template>
@@ -114,7 +125,7 @@ function load() {
         </template>
       </OtherError>
     </div>
-    <div v-else class="main-box h-100vh flex-row-c-c">
+    <!-- <div v-else class="main-box h-100vh flex-row-c-c">
       <OtherError msg="未登录,请登录后查看!" icon="i-solar:eye-line-duotone w-8rem h-8rem animate-[0.2s_fade-in_3]">
         <template #footer>
           <BtnElButton
@@ -134,7 +145,7 @@ function load() {
           </BtnElButton>
         </template>
       </OtherError>
-    </div>
+    </div> -->
   </div>
 </template>
 

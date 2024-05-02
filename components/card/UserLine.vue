@@ -61,6 +61,7 @@ function exitLogin() {
     .then(() => {
       // 退出登录
       user.onUserExit(user.token);
+      navigateTo("/login");
       ElMessage.success("退出成功！");
     })
     .catch(() => {});

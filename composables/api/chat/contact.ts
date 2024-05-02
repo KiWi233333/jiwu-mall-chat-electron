@@ -8,12 +8,13 @@ import type { Result } from "@/types/result";
  * @param token token
  * @returns 分页
  */
-export function getChatContactPage(pageSize = 10, cursor: string | null | number = null, token: string) {
+export function getChatContactPage(dto: ContactPageDTO, token: string) {
   return useHttp.get<Result<CursorPage<ChatContactVO>>>(
     "/chat/contact/page",
     {
-      pageSize,
-      cursor,
+      pageSize: dto.pageSize,
+      cursor: dto.cursor,
+      type: dto.type,
     },
     {
       headers: {
@@ -21,6 +22,12 @@ export function getChatContactPage(pageSize = 10, cursor: string | null | number
       },
     },
   );
+}
+
+export interface ContactPageDTO {
+  pageSize: number
+  cursor?: string | null | undefined
+  type?: RoomType | null | undefined
 }
 
 /**

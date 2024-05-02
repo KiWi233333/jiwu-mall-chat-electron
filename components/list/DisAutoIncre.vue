@@ -4,17 +4,26 @@ const props = withDefaults(defineProps<{
   immediate?: boolean
   delay?: number
   loading?: boolean
-  loadingClass?: string
+  loadingClass?: LoadingClassEnum | string
+  appendLoadingClass?: string
   autoStop?: boolean
 }>(), {
   noMore: false,
   immediate: true,
   loading: false,
   autoStop: true,
-  delay: 500,
+  delay: 400,
+  appendLoadingClass: "mx-a text-1.8rem",
   loadingClass: "mx-a my-0.6em h-1.4rem w-1.4rem animate-[spin_2s_infinite_linear] rounded-6px bg-[var(--el-color-primary)]",
 });
 const emit = defineEmits(["load"]);
+
+enum LoadingClassEnum {
+  "load-empty-circle",
+  "load-chaotic-orbit",
+  "load-db-rule",
+}
+
 // 停止加载
 const loadMoreRef = ref();
 // 首次执行
@@ -94,11 +103,10 @@ defineExpose({
     class="min-h-1em"
   >
     <slot name="load">
-      <div key="load" w-full flex-row-c-c py-2 text-center text-bluegray>
-        <div
-          :class="loadingClass"
-        />
-      </div>
+      <div
+        key="load"
+        :class="`${loadingClass} ${appendLoadingClass}`"
+      />
     </slot>
   </div>
   <!-- 完成 -->

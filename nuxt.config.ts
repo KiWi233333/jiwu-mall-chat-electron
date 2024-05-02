@@ -15,8 +15,7 @@ export default defineNuxtConfig({
     transpile: ["echarts", "vue-echarts", "popperjs/core", "@popperjs/core", "resize-detector"],
   },
   // spa情况下loading状态
-  spaLoadingTemplate: "./app/spa-loading-template.html",
-
+  // spaLoadingTemplate: "./app/spa-loading-template.html",
   // 模块
   modules: [
     // 工具

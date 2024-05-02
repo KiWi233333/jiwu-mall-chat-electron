@@ -316,10 +316,10 @@ export interface TheFriendOpt<T = object> {
 }
 
 export enum FriendOptType {
-  Empty = -1,
-  User = 0,
-  NewFriend = 1,
-  GroupFriend = 2,
+  Empty = -1, // 空白
+  User = 0, // 用户个人页面
+  NewFriend = 1, // 添加好友
+  GroupFriend = 2, // 群组好友
 }
 
 

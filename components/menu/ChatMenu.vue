@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { getApplyUnRead } from "~/composables/api/chat/friend";
+
 defineEmits<{
   (e: "close"): void
 }>();
@@ -125,18 +127,17 @@ const setting = useSettingStore();
     "
       @click="setting.isChatFold = false"
     />
-
     <!-- 折叠 -->
-    <span
-      class="absolute top-1/2 z-999 flex-row-c-c op-80 shadow-md transition-all -right-5 sm:h-2.2rem border-default hover:(op-100)"
-      :class="setting.showChatMenu ? ' pl-1px rounded-2 h-3rem w-1.6rem el-bg-primary text-white' : ' pr-1px rounded-1/2 h-2.2rem w-2.2rem  bg-color btn-primary-bg'"
+    <!-- <span
+      class="absolute bottom-4 z-999 flex-row-c-c rounded-r-2 op-80 shadow-md transition-all -right-6 sm:h-2.6rem border-default hover:(op-100)"
+      :class="setting.showChatMenu ? ' pl-1px h-3rem w-1.6rem el-bg-primary text-white' : 'pl-1px  h-3rem w-1.6rem el-bg-primary text-white'"
       @click="setting.showChatMenu = !setting.showChatMenu"
     >
       <i
         :class="setting.showChatMenu ? 'rotate-0 ' : 'rotate-180'"
         class="i-solar:alt-arrow-right-line-duotone block p-0.6em transition-all"
       />
-    </span>
+    </span> -->
   </div>
 </template>
 

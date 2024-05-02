@@ -16,7 +16,10 @@ const pageInfo = ref({
 });
 const searchKeyWords = ref("");
 const getContactList = computed(() => {
-  return chat.contactList.sort((a, b) => b.activeTime - a.activeTime).filter(p => p.name.includes(searchKeyWords.value));
+  if (searchKeyWords.value)
+    return chat.contactList.sort((a, b) => b.activeTime - a.activeTime).filter(item => item.name.includes(searchKeyWords.value));
+  else
+    return chat.contactList.sort((a, b) => b.activeTime - a.activeTime);
 });
 
 interface ChatContactPageDTO {
@@ -29,7 +32,10 @@ async function loadData(dto?: ChatContactPageDTO) {
   if (isLoading.value || pageInfo.value.isLast)
     return;
   isLoading.value = true;
-  const { data } = await getChatContactPage(pageInfo.value.size, pageInfo.value.cursor, user.getToken);
+  const { data } = await getChatContactPage({
+    pageSize: pageInfo.value.size,
+    cursor: pageInfo.value.cursor,
+  }, user.getToken);
   if (data.list) {
     if (dto?.type === RoomType.GROUP) {
       data.list.forEach((p: ChatContactVO) => {
@@ -86,6 +92,9 @@ const theContactId = computed({
             item.roomGroup = res?.data?.roomGroup;
             item.member = res?.data?.member;
           }
+        }
+        else {
+          contact.setContact(chat.contactList[0] || {});
         }
       })();
     }
@@ -186,7 +195,7 @@ function onContextMenu(e: MouseEvent, item: ChatContactVO) {
         label: "联系人",
         onClick: () => {
           chat.setTheFriendOpt(FriendOptType.Empty);
-          navigateTo("/friend");
+          navigateTo("/chat/friend");
         },
       },
     ];
@@ -198,22 +207,24 @@ function onContextMenu(e: MouseEvent, item: ChatContactVO) {
 const ws = useWs();
 
 // 成员变动消息
-watchThrottled(() => ws.wsMsgList.memberMsg, async (list) => {
+watchDebounced(() => ws.wsMsgList.memberMsg.length, async (len) => {
+  if (!len)
+    return;
+
   // 成员变动消息
-  if (list.length) {
-    for (const p of list) {
+  if (ws.wsMsgList.memberMsg.length) {
+    for (const p of ws.wsMsgList.memberMsg) {
       // 新加入
       if (p.changeType === WSMemberStatusEnum.JOIN) {
-        const index = chat.contactList.findIndex(ctx => ctx.roomId === p.roomId);
         const res = await getChatContactInfo(p.roomId, RoomType.GROUP, user.getToken);
         if (res) {
+          const index = chat.contactList.findIndex(ctx => ctx.roomId === p.roomId);
           if (index > -1) { // 更新
             chat.contactList[index] = res.data;
           }
           else { // 添加
             res.data.unreadCount = 1;
-            if (chat.contactList[index])
-              chat.contactList.unshift(res.data);
+            chat.contactList.unshift(res.data);
           }
         }
       }
@@ -241,7 +252,6 @@ watchThrottled(() => ws.wsMsgList.memberMsg, async (list) => {
     ws.wsMsgList.memberMsg.splice(0);
   }
 }, {
-  deep: true,
   immediate: true,
 });
 </script>
@@ -261,23 +271,23 @@ watchThrottled(() => ws.wsMsgList.memberMsg, async (list) => {
         :prefix-icon="ElIconSearch"
         minlength="2"
         maxlength="30"
-        placeholder="搜索"
+        placeholder="筛选 🔔"
       />
       <BtnElButton
         plain
         style="width: 2rem;transition: 200ms;"
-        :loading="isLoading"
         @click="showDialog = true"
       >
         <i i-carbon:add-large p-2 />
       </BtnElButton>
     </div>
     <!-- 会话列表 -->
-    <el-radio-group v-model="theContactId" class="w-full">
+    <el-radio-group v-model="theContactId" class="contact-list w-full">
       <div v-auto-animate w-full flex flex-col>
         <ListAutoIncre
           :immediate="true"
           :auto-stop="false"
+          loading-class="mx-a mb-2 h-1rem w-1rem animate-[spin_2s_infinite_linear] rounded-4px bg-[var(--el-color-primary)] py-0.4em"
           :no-more="pageInfo.isLast"
           :loading="isLoading"
           @load="loadData(dto)"
@@ -289,11 +299,11 @@ watchThrottled(() => ws.wsMsgList.memberMsg, async (list) => {
             :label="room.roomId"
           >
             <div
-              class="group flex gap-3 truncate bg-white p-4 transition-200 transition-shadow sm:w-full dark:bg-dark text-color"
+              class="group flex gap-2 truncate bg-white p-4 transition-200 transition-shadow sm:w-full dark:bg-dark text-color"
               @contextmenu.stop="onContextMenu($event, room)"
             >
               <el-badge :hidden="!room.unreadCount" :max="99" :value="room.unreadCount" class="h-2.6rem w-2.6rem flex-shrink-0">
-                <CardElImage :src="BaseUrlImg + room.avatar" fit="cover" class="h-2.6rem w-2.6rem object-cover shadow-sm card-default" />
+                <CardElImage :src="BaseUrlImg + room.avatar" fit="cover" class="h-2.6rem w-2.6rem object-cover border-default card-default" />
               </el-badge>
               <div class="flex flex-1 flex-col justify-between truncate">
                 <p truncate>
@@ -328,36 +338,39 @@ watchThrottled(() => ws.wsMsgList.memberMsg, async (list) => {
 </template>
 
 <style lang="scss" scoped>
-:deep(.el-radio-group) {
-  display: block;
-  padding: 0;
-  font-size: 1rem;
-  margin: 0;
-  width: 100%;
-}
+.contact-list {
 
-:deep(.el-radio){
-  width: 100%;
-  height: fit-content;
-  display: block;
-  padding: 0 !important;
-  border-color: transparent !important;
-  transition: all 200ms;
-  margin-bottom: 1rem;
-  &.is-checked {
-    .group {
-      background-color: var(--el-color-primary);
-      transition: all 200ms;
-      color: #fff;
-    }
-    border-color: transparent !important;
-  }
-  .el-radio__input {
-    display: none;
-    border-color: transparent;
-  }
-  .el-radio__label {
+  :deep(.el-radio-group) {
+    display: block;
     padding: 0;
+    font-size: 1rem;
+    margin: 0;
+    width: 100%;
+  }
+
+  :deep(.el-radio){
+    width: 100%;
+    height: fit-content;
+    display: block;
+    padding: 0;
+    border-color: transparent;
+    transition: 200ms border;
+    margin-bottom: 1rem;
+    &.is-checked {
+      .group {
+        background-color: var(--el-color-primary-light-9);
+        transition: all 300ms;
+        font-weight: 600;
+      }
+      border-color: var(--el-color-primary) !important;
+    }
+    .el-radio__input {
+      display: none;
+      border-color: transparent;
+    }
+    .el-radio__label {
+      padding: 0;
+    }
   }
 }
 </style>

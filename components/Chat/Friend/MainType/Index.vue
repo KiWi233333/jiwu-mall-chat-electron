@@ -5,7 +5,7 @@ import { ChatFriendMainTypeGroupFriend, ChatFriendMainTypeNewFriend, ChatFriendM
 /**
  * 面板适配器
  */
-const props = defineProps<{
+defineProps<{
   data: TheFriendOpt
 }>();
 const maps: FriendOptTypeMap = ({

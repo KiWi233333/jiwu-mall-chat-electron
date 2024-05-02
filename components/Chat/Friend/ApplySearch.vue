@@ -109,14 +109,6 @@ function clickTag(val: string, i: number) {
 const isShowModel = ref(false);
 
 const timer = ref<any>();
-function onBlur() {
-  if (isShowModel.value) {
-    clearTimeout(timer.value);
-    timer.value = null;
-  }
-  if (!isLoading.value && !searchKeyWords.value)
-    isShowModel.value = false;
-}
 </script>
 
 <template>
@@ -135,7 +127,7 @@ function onBlur() {
         minlength="2"
         maxlength="30"
         :on-search="onSearch"
-        placeholder="搜索好友"
+        placeholder="搜索好友 🔮"
         @focus="isShowModel = true"
         @keyup.esc="clearSearch"
         @keyup.enter="onSearch"
@@ -152,7 +144,7 @@ function onBlur() {
         搜索
       </BtnElButton>
     </div>
-    <div v-if="isShowModel" class="absolute left-0 top-2rem z-1 h-80vh w-full flex-1 bg-color">
+    <div v-if="isShowModel" class="absolute left-0 top-2.5rem z-1 h-80vh w-full flex-1 bg-color">
       <!-- 搜索历史记录 -->
       <ClientOnly>
         <div
@@ -233,21 +225,18 @@ function onBlur() {
 
 <!-- 样式scss -->
 <style scoped lang="scss">
-$height: 1.8rem;
-
 .v-input {
   :deep(.el-button) {
-    height: $height;
-    padding: 0 30px;
+    padding: 0 2rem;
     margin-right: 0;
     letter-spacing: 0.2em;
+    --at-apply: "h-2.2rem sm:h-1.8rem";
   }
-
   :deep(.el-input__wrapper) {
     transition: $transition-delay;
-    height: $height;
-    letter-spacing: 0.2em;
 
+    letter-spacing: 0.2em;
+    --at-apply: "h-2.2rem sm:h-1.8rem";
     &.is-focus {
       backdrop-filter: blur(20px);
     }

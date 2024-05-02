@@ -7,14 +7,18 @@ const pageInfo = ref({
   size: 10,
   total: -1,
 });
-const list = ref<ChatUserFriendVO[]>([]);
+const list = ref<ChatContactVO[]>([]);
 
 // 加载数据
 async function loadData() {
   if (isLoading.value || pageInfo.value.isLast)
     return;
   isLoading.value = true;
-  const { data } = await getChatFriendPage(pageInfo.value.size, pageInfo.value.cursor, user.getToken);
+  const { data } = await getChatContactPage({
+    pageSize: pageInfo.value.size,
+    cursor: pageInfo.value.cursor,
+    type: RoomType.GROUP,
+  }, user.getToken);
   if (data.list)
     list.value.push(...data.list);
   pageInfo.value.isLast = data.isLast;
@@ -35,49 +39,33 @@ watchDebounced(() => chat.delUserId, (val) => {
 });
 </script>
 
+
 <template>
-  <el-radio-group class="w-full">
-    <div w-full flex flex-col>
-      <ListAutoIncre
-        :immediate="true"
-        :auto-stop="true"
-        :no-more="pageInfo.isLast"
-        :loading="isLoading"
-        @load="loadData"
+  <div w-full flex flex-col>
+    <ListAutoIncre
+      :no-more="pageInfo.isLast"
+      :loading="isLoading"
+      @load="loadData"
+    >
+      <div
+        v-for="p in list"
+        :key="p.id" class="item" data-fade
+        @click="chat.setTheFriendOpt(FriendOptType.GroupFriend, p)"
       >
-        <div v-for="p in list" :key="p.uid">
-          {{ p.nickName }}
-          {{ p.activeStatus }}
+        <div class="avatar-icon">
+          <CardElImage class="h-full w-full overflow-hidden rounded-6px" :src="BaseUrlImg + p.avatar" fit="cover" />
         </div>
-      </ListAutoIncre>
-    </div>
-  </el-radio-group>
+        <p>{{ p.name || "未填写" }}</p>
+      </div>
+    </ListAutoIncre>
+  </div>
 </template>
 
 <style lang="scss" scoped>
-:deep(.el-radio-group) {
-  display: block;
-  padding: 0;
-  font-size: 1rem;
-  margin: 0;
-  width: 100%;
+.avatar-icon {
+  --at-apply:"h-2.6rem card-default  w-2.6rem flex-row-c-c rounded-6px  shadow-sm border-default"
 }
-
-:deep(.el-radio){
-  width: 100%;
-  height: fit-content;
-  display: block;
-  padding: 0;
-  margin: 0;
-  border-color: #adadad18;
-    transition: 200ms border;
-  margin-bottom: 1rem;
-  .el-radio__input {
-    display: none;
-    border-color: transparent;
-  }
-  .el-radio__label {
-    padding: 0;
-  }
+.item {
+  --at-apply:"flex items-center gap-4 p-2 cursor-pointer rounded-6px mt-2 hover:(bg-[#b8b8b849] ) transition-300"
 }
 </style>

@@ -18,7 +18,6 @@ function getTime(time: string) {
     : useDateFormat(time, "HH:mm:ss").value.toString()
   ;
 }
-const isSelf = computed(() => props.data?.fromUser?.userId === user?.userInfo.id);
 
 // 具体
 const body: Partial<ImgBodyMsgVO> | undefined = props.data.message?.body || {};
@@ -28,38 +27,29 @@ const body: Partial<ImgBodyMsgVO> | undefined = props.data.message?.body || {};
   <div
     v-bind="$attrs"
     :label="data.roomId"
-    class="max-w-3/4 w-fit flex gap-4 p-2 py-3"
-    :class="isSelf ? 'self pl-2em  sm:pl-5em ' : 'pr-2em sm:pr-5em'"
-    max-w-full w-fit flex gap-4 p-2 py-3 transition-300 transition-transform active:scale-95
+    class="msg"
+    :class="{
+      self: data?.fromUser?.userId === user?.userInfo.id,
+    }"
   >
-    <CardElImage :src="BaseUrlImg + data.fromUser.avatar" fit="cover" class="avatar h-2.4rem w-2.4rem rounded-1/2 object-cover border-default" />
+    <CardElImage :src="BaseUrlImg + data.fromUser.avatar" fit="cover" class="h-2.4rem w-2.4rem rounded-1/2 object-cover border-default" />
     <!-- 消息体 -->
-    <div class="flex flex-col">
+    <div class="body">
       <!-- 头像 -->
-      <div class="mb-2 block flex flex-row items-center gap-2">
-        <small>{{ data.fromUser.nickName }}</small>
-        <el-tag v-if="data.fromUser.userId === user.userInfo.id" class="op-80" effect="dark" size="small">
-          自己
-        </el-tag>
-      </div>
-      <!-- 内容 -->
-      <div class="msg-popper w-fit" style="border-radius: 6px;">
-        <CardElImage
-          v-if="body.url" :src="BaseUrlImg + body.url"
-          class="h-8rem w-8rem shadow-sm border-default v-card"
-          preview-teleported
-          :alt="body.url"
-          :preview-src-list="[BaseUrlImg + body.url]"
-        />
-        <p w-fit p-2 leading-1.2em class="text msg-popper transform-origin-ct transition-300 transition-transform active:scale-95" card-default>
-          {{ data.message.content }}
-        </p>
-      </div>
-      <!-- 回复 -->
-      <small v-if="body?.reply" mt-2 class="max-h-4rem max-w-20rem w-fit cursor-pointer break-words px-2 py-1 op-70 border-default card-default" @click="chat.scrollReplyMsg(body?.reply?.id, body?.reply?.gapCount)">
-        <el-tag size="small">回复</el-tag>
-        {{ `${body.reply.nickName}:${body.reply?.body || ''}` }}
+      <small class="nickname">
+        {{ data.fromUser.nickName }}
       </small>
+      <!-- 内容 -->
+      <CardElImage
+        v-if="body.url" :src="BaseUrlImg + body.url"
+        class="img h-8rem w-8rem shadow-sm border-default card-default bg-color"
+        preview-teleported
+        :alt="body.url"
+        :preview-src-list="[BaseUrlImg + body.url]"
+      />
+      <p w-fit p-2 leading-1.2em class="self-child msg-popper transform-origin-ct shadow-sm transition-300 transition-transform active:scale-95 bg-color">
+        {{ data.message.content }}
+      </p>
     </div>
   </div>
   <p v-if="index % 8 === 0" w-full py-2 text-center text-0.8em op-80>
@@ -68,31 +58,5 @@ const body: Partial<ImgBodyMsgVO> | undefined = props.data.message?.body || {};
 </template>
 
 <style lang="scss" scoped>
-.reply-shaing {
-  --at-apply: 'rounded-6px w-full bg-[var(--el-color-primary-light-5)] animate-pulse animate-duration-1200 transition-all';
-}
-.self {
-  margin-left: auto;
-  .flex-row {
-    margin-left: auto;
-    flex-direction: row-reverse;
-  }
-  flex-direction: row-reverse;
-  .self-child {
-    margin-left: auto;
-  }
-  .flex-col {
-    justify-content: right;
-  }
-  .msg-popper {
-    border-radius: 1rem 4px 1rem 1rem;
-  }
-  .text {
-    margin-left: auto;
-  }
-
-}
-.msg-popper {
-  border-radius: 1rem 4px 1rem 1rem;
-}
+@use './msg.scss';
 </style>

@@ -44,6 +44,9 @@ const isTheGroupPermission = computed(() => {
 const colorMode = useColorMode();
 function onContextMenu(e: MouseEvent, item: ChatMessageVO) {
   e.preventDefault();
+  if (item.message.type === MessageType.AI_CHAT)
+    return;
+
   const isSelf = user.userInfo.id === item.fromUser.userId;
 
   const opt = {
@@ -71,7 +74,22 @@ function onContextMenu(e: MouseEvent, item: ChatMessageVO) {
         },
       },
       {
-        label: "@TA",
+        label: "联系人",
+        icon: "i-solar:user-broken group-btn-primary",
+        customClass: "group",
+        hidden: isSelf,
+        onClick: () => {
+          chat.setTheFriendOpt(FriendOptType.User, {
+            id: item.fromUser.userId,
+          });
+          nextTick(() => {
+            navigateTo("/chat/friend");
+          });
+        },
+      },
+      {
+        label: "TA",
+        icon: "i-solar:mention-circle-broken group-btn-primary",
         customClass: "group",
         hidden: isSelf,
         onClick: () => {
@@ -147,7 +165,11 @@ function deleteMsg(roomId: number, msgId: number) {
   <component
     :is="map[data.message?.type || MessageType.TEXT]"
     :index="index"
-    :data="data" v-bind="$attrs" @contextmenu="onContextMenu($event, data)"
+    :data="data" v-bind="$attrs"
+    @contextmenu="onContextMenu($event, data)"
   />
 </template>
 
+<style lang="scss" scoped>
+@use './msg.scss';
+</style>

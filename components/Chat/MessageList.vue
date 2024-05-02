@@ -24,7 +24,7 @@ async function loadData(call?: () => void) {
     const oldSize = chat.scrollTopSize;
 
     nextTick(() => {
-    // 更新滚动位置
+      // 更新滚动位置
       chat.saveScrollTop && chat.saveScrollTop();
       if (pageInfo.value.cursor === null) {
         call && call();
@@ -70,32 +70,32 @@ function reload() {
   };
   chat.scrollTopSize = 0;
   loadData(() => {
-    // 滚动到底部
-    setTimeout(() => {
-      chat.scrollBottom();
-    }, 300);
+    chat.scrollBottom();
   });
 }
 /**
  * 新消息
  */
-watch(() => ws.wsMsgList.newMsg, (list) => {
+watch(() => ws.wsMsgList.newMsg.length, () => {
   // 1、新消息
-  resolveNewMsg(list);
+  resolveNewMsg(ws.wsMsgList.newMsg);
 }, {
+  immediate: true,
   deep: true,
 });
-watch(() => ws.wsMsgList.recallMsg, (list) => {
+watch(() => ws.wsMsgList.recallMsg.length, () => {
   // 2、撤回消息
-  resolveRevokeMsg(list);
+  resolveRevokeMsg(ws.wsMsgList.recallMsg);
 }, {
+  immediate: true,
   deep: true,
 });
 
-watch(() => ws.wsMsgList.deleteMsg, (list) => {
+watch(() => ws.wsMsgList.deleteMsg.length, () => {
   // 3、删除消息
-  resolveDeleteMsg(list);
+  resolveDeleteMsg(ws.wsMsgList.deleteMsg);
 }, {
+  immediate: true,
   deep: true,
 });
 
@@ -242,7 +242,7 @@ defineExpose({
       :auto-stop="false"
       :no-more="pageInfo.isLast"
       :loading="isLoading"
-      loading-class="mx-a my-3 h-1rem w-1rem animate-[spin_2s_infinite_linear] rounded-4px bg-[var(--el-color-primary)] py-0.4em"
+      loading-class="load-chaotic-orbit"
       @load="loadData"
     >
       <!-- 消息适配器 -->

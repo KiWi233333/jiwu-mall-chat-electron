@@ -273,7 +273,7 @@ function toLoginForm() {
   <!-- 注册 -->
   <el-form
     ref="formRef" v-loading="isLoading" label-position="top"
-    hide-required-asterisk :rules="rules" :model="formUser" class="form relative w-94vw sm:w-400px"
+    hide-required-asterisk :rules="rules" :model="formUser" class="form relative"
   >
     <small v-if="isLoading" class="absolute-center-center">{{ loadingText }}</small>
     <h2 mb-5 mt-4 tracking-0.2em>
@@ -331,12 +331,10 @@ function toLoginForm() {
     </el-form-item>
     <!-- 密 码 -->
     <el-form-item
-      typ
-      e="password" show-password label="" prop="password" class="animated"
+      type="password" show-password label="" prop="password" class="animated"
     >
       <el-input
-        v-model.trim="formUser.password" prefix-icon="Lock" size="large" placeholder="请输入密码
-（6-20位）" show-password
+        v-model.trim="formUser.password" prefix-icon="Lock" size="large" placeholder="请输入密码（6-20位）" show-password
         type="password"
       />
     </el-form-item>
@@ -352,13 +350,8 @@ function toLoginForm() {
 .form {
   display: block;
   padding: 2em 3em;
-  background-color: #ffffff;
-  border-radius: var(--el-border-radius-base);
-  backdrop-filter: blur(5px);
-  border: 1px solid rgba(109, 109, 109, 0.2);
-  box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 4px;
   overflow: hidden;
-  animation-duration: 1s;
+  animation-delay: 0.1s;
 
   :deep(.el-input__wrapper) {
     padding: 0.3em 1em;
@@ -376,10 +369,6 @@ function toLoginForm() {
 
 :deep(.el-button) {
   padding: 0.3em 1em;
-}
-
-.dark .form {
-  background-color: #161616d8;
 }
 
 // label总体

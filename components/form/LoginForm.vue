@@ -238,7 +238,7 @@ async function onLogin(formEl: any | undefined) {
     hide-required-asterisk
     :rules="rules"
     :model="userForm"
-    class="form animate__animated w-94vw sm:w-400px"
+    class="form animate__animated"
   >
     <h2
       mb-5
@@ -261,9 +261,9 @@ async function onLogin(formEl: any | undefined) {
       <span
         flex-1
         class="transition-all btn-info"
-        @click="loginType = LoginType.ADMIN"
+        @click="loginType = loginType === LoginType.ADMIN ? LoginType.PHONE : LoginType.ADMIN"
       >
-        管理员
+        {{ loginType === LoginType.ADMIN ? "管理员" : "用户" }}
       </span>
     </p>
     <!-- 切换登录 -->
@@ -415,11 +415,6 @@ async function onLogin(formEl: any | undefined) {
 .form {
   display: block;
   padding: 2em 3em;
-  background-color: #fff;
-  border-radius: var(--el-border-radius-base);
-  backdrop-filter: blur(5px);
-  border: 1px solid rgb(109 109 109 / 20%);
-  box-shadow: rgb(0 0 0 / 20%) 0 1px 4px;
   overflow: hidden;
   animation-delay: 0.1s;
 
@@ -439,10 +434,6 @@ async function onLogin(formEl: any | undefined) {
 
 :deep(.el-button) {
   padding: 0.3em 1em;
-}
-
-.dark .form {
-  background-color: #161616d8;
 }
 
 .animate__animated {

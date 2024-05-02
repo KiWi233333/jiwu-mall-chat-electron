@@ -82,6 +82,9 @@ function onSubmit() {
     }, user.getToken);
     if (res.code === StatusCode.SUCCESS)
       emit("submit", res.data);
+    else if (res.message === "您和对方已不是好友！")
+      return;
+
     form.value.content = "";
     reloadForm();
   });
@@ -243,8 +246,8 @@ onMounted(() => {
         <div class="i-solar:close-circle-bold text-dark op-80 transition-200 transition-color btn-default dark:text-light hover:text-[var(--el-color-danger)]" h-2em w-2em @click="chat.setReplyMsg({})" />
       </div>
     </el-form-item>
-    <!-- 工具栏 -->
-    <div class="flex flex-col rounded-b-0 rounded-t-2 px-4 py-2 shadow bg-color">
+    <div class="flex flex-col border-0 border-t-1px px-4 py-2 shadow border-default bg-color">
+      <!-- 工具栏 -->
       <div
         class="relative flex grid-gap-4"
       >
@@ -308,13 +311,7 @@ onMounted(() => {
         </div>
       </div>
       <!-- 内容 -->
-      <div my-4 flex items-end gap-3>
-        <NuxtLink to="/user/info" class="flex-row-c-c">
-          <CardElImage
-            :src="user.userInfo.avatar ? BaseUrlImg + user.userInfo.avatar : ''"
-            class="block h-2rem w-2rem rounded-1/2 shadow-sm"
-          />
-        </NuxtLink>
+      <div relative my-2 flex items-end gap-3>
         <el-form-item
           prop="content"
           style="padding: 0;margin: 0;"
@@ -326,12 +323,13 @@ onMounted(() => {
           <el-input
             ref="inputRef"
             v-model.lazy="form.content"
-            :autosize="{ minRows: 1, maxRows: 4 }"
-            :rows="form?.content && form?.content?.length > 30 ? 4 : 1"
+            :rows="6"
+            show-word-limit
             :maxlength="500"
-            placeholder="来聊点什么吧 ✨"
+            :autosize="false"
             type="textarea"
             class="input"
+            autofocus
             :class="{
               focused: form.content,
             }"
@@ -339,10 +337,9 @@ onMounted(() => {
           />
         </el-form-item>
         <BtnElButton
-          round
           :disabled="!user.isLogin"
           transition-icon
-          class="group ml-a"
+          class="group absolute bottom-0 right-0 ml-a shadow"
           icon-class="i-solar:map-arrow-right-bold-duotone block -rotate-45 mr-1"
           type="info"
           @click="onSubmit()"
@@ -355,26 +352,6 @@ onMounted(() => {
 </template>
 
 <style lang="scss" scoped>
-.input {
-  :deep(.el-input__wrapper),
-  :deep(.el-textarea__inner) {
-    border-radius: 2rem;
-    transition: all 0.2s;
-    &:focus,
-    &:hover {
-      border-radius: 0.5rem;
-      height: 4rem !important;
-    }
-  }
-  &.focused {
-    :deep(.el-input__wrapper),
-    :deep(.el-textarea__inner) {
-      border-radius: 0.5rem;
-      height: 4rem !important;
-    }
-  }
-
-}
 .at-select {
   :deep(.el-select__wrapper),
   :deep(.el-select-v2__input-wrapper),
@@ -385,6 +362,23 @@ onMounted(() => {
   }
   :deep(.el-form-item__error) {
     padding-left: 1rem;
+  }
+}
+.input {
+  :deep(.el-input__count) {
+    left: 0px;
+    transition: opacity 0.2s;
+    opacity: 0;
+  }
+  :deep(.el-textarea__inner) {
+
+    box-shadow: none !important;
+    background-color: transparent;
+    caret-color: var(--el-color-primary);
+    font-size: 1rem;
+    &:hover + .el-input__count  {
+      opacity: 1;
+    }
   }
 }
 </style>
