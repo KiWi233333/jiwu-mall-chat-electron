@@ -79,29 +79,15 @@ const setting = useSettingStore();
       :collapse="setting.isUserFold"
     >
       <!-- 顶部 -->
-      <div class="w-full flex-row-c-c flex-wrap px-5 transition-300 transition-300 sm:flex-row-bt-c hover:bg-transparent">
-        <div class="home mt-6 self-center transition-300">
-          <ClientOnly>
-            <CardUserLine
-              :user-info="user.userInfo" :propver-props="{
-                placement: 'right-start',
-                trigger: 'hover',
-                offset: 30,
-              }"
-            >
-              <CardElImage :src="BaseUrlImg + user.userInfo.avatar" class="relative z-100 h-2rem w-2rem border-default card-default" alt="头像" />
-            </CardUserLine>
-          </ClientOnly>
-        </div>
+      <div class="grid grid-cols-1 w-full grid-gap-6 py-4 pt-6 transition-300 transition-300 hover:bg-transparent">
+        <CardElImage :src="BaseUrlImg + user.userInfo.avatar" class="relative z-100 mx-a h-6 w-6 sm:mr-a border-default card-default" alt="头像" />
         <!-- 会话 -->
-        <ChatContactBtn class="block sm:hidden" />
-        <!-- 折叠 -->
         <span
-          class="mt-6 p-1 transition-300"
-          :class="setting.isUserFold ? 'hover:rotate-15' : 'hover:-rotate-15'"
-          @click="setting.isUserFold = !setting.isUserFold"
+          block sm:hidden
+          class="mx-a transition-300 btn-primary sm:(ml-a mr-0) hover:scale-120"
+          @click="setting.isOpenContact = !setting.isOpenContact"
         >
-          <i class="i-solar:signpost-2-line-duotone" cursor-pointer p-0.6em />
+          <i class="i-solar:chat-square-bold-duotone" cursor-pointer p-3 />
         </span>
       </div>
       <div class="mx-a my-4 w-5/6 border-0 border-b-1px border-default" />

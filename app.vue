@@ -96,8 +96,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div id="app" card-default bg-color>
-    <!-- <OtherLoading /> -->
+  <div id="app">
     <NuxtPage />
   </div>
 </template>
@@ -106,20 +105,18 @@ onUnmounted(() => {
 // .page-enter-active,
 // .page-leave-active {
 //   opacity: 1;
-//   transition-duration: 0.3s;
-//   transition-property: filter, opacity;
-//   will-change: filter, opacity;
+//   transition-duration: 0.1s;
+//   transition-property: opacity;
+//   will-change: opacity;
 // }
 
 // .page-enter-from,
 // .page-leave-to {
 //   opacity: 0;
-//   filter: blur(4px) contrast(4);
 // }
 
 // .dark .page-enter-from,
 // .dark .page-leave-to {
 //   opacity: 0.7;
-//   filter: none;
 // }
 </style>

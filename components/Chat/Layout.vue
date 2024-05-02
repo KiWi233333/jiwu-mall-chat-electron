@@ -81,12 +81,12 @@ watch(
 </script>
 
 <template>
-  <div class="h-100vh flex flex-col overflow-hidden border-default v-card">
+  <main class="h-100vh flex flex-col overflow-hidden border-default v-card">
     <div
       v-if="user.isLogin && ws.status === WsStatusEnum.OPEN"
       class="relative h-full flex flex-col"
     >
-      <LazyMenuHeaderMenuBar />
+      <MenuHeaderMenuBar />
       <div
         class="main-box relative"
         v-bind="$attrs"
@@ -146,7 +146,7 @@ watch(
         </template>
       </OtherError>
     </div> -->
-  </div>
+  </main>
 </template>
 
 <style scoped lang="scss">

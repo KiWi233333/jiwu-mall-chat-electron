@@ -55,14 +55,15 @@ function onWindowOptions(mainWindow: BrowserWindow) {
   ipcMain.handle("window-toggle", (e, type: "min" | "max" | "close") => {
     if (type === "max") {
       if (mainWindow.isMaximized())
-        mainWindow.restore();
+        mainWindow.unmaximize();
       else
         mainWindow.maximize();
+
+      return mainWindow.isMaximized();
     }
     else if (type === "min") {
       mainWindow.minimize();
     }
-
     else if (type === "close") {
       mainWindow.close();
     }

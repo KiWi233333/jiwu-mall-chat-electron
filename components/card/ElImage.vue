@@ -1,38 +1,28 @@
 <script lang="ts" setup>
 defineProps<{
   src: string
+  loadClass?: string
+  errorClass?: string
 }>();
-const status = ref("loading");
 </script>
 
 <template>
-  <ClientOnly>
-    <template #fallback>
-      <OtherPreLoading
-        message=""
-        icon=""
-        v-bind="$attrs"
-      />
+  <el-image
+    :src="src"
+    fit="cover"
+    v-bind="$attrs"
+  >
+    <!-- 占位 -->
+    <template #placeholder>
+      <div :class="loadClass !== undefined ? loadClass : 'sky-loading h-full w-full flex-row-c-c'" />
     </template>
-    <el-image
-      v-bind="$attrs"
-      :src="src"
-      fit="cover"
-    >
-      <!-- 占位 -->
-      <template #placeholder>
-        <div class="h-full w-full flex-row-c-c">
-          <i class="icon" i-solar:menu-dots-bold-duotone opacity-40 />
-        </div>
-      </template>
-      <!-- 错误 -->
-      <template #error>
-        <div class="h-full w-full flex-row-c-c">
-          <i class="icon" i-solar:cup-hot-line-duotone opacity-50 />
-        </div>
-      </template>
-    </el-image>
-  </ClientOnly>
+    <!-- 错误 -->
+    <template #error>
+      <div class="h-full w-full flex-row-c-c animate-fade-in">
+        <i class="icon" i-solar:danger-triangle-linear :class="errorClass" opacity-50 />
+      </div>
+    </template>
+  </el-image>
 </template>
 
 <style scoped lang="scss">

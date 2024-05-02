@@ -80,11 +80,13 @@
 
 // 关闭所有动画渐变保证变化的流畅
 html.stop-transition {
+  &,
   * {
     transition: none !important;
   }
 }
 html.stop-transition-all {
+  &,
   * {
     transition: none !important;
     backdrop-filter: none !important;

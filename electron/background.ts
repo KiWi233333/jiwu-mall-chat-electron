@@ -28,8 +28,8 @@ const modules = [titleBarActionsModule, macMenuModule, updaterModule];
 function createWindow() {
   const mainWindow = new BrowserWindow({
     title: "极物圈",
-    width: 1244,
-    height: 864,
+    width: 1250,
+    height: 920,
     minWidth: 425,
     minHeight: 676,
     frame: false, // 无边框

@@ -17,7 +17,7 @@ const pageInfo = ref({
 const searchKeyWords = ref("");
 const getContactList = computed(() => {
   if (searchKeyWords.value)
-    return chat.contactList.sort((a, b) => b.activeTime - a.activeTime).filter(item => item.name.includes(searchKeyWords.value));
+    return chat.contactList.sort((a, b) => b.activeTime - a.activeTime).filter(item => item.name.toLocaleLowerCase().includes(searchKeyWords.value.toLocaleLowerCase()));
   else
     return chat.contactList.sort((a, b) => b.activeTime - a.activeTime);
 });
@@ -271,7 +271,7 @@ watchDebounced(() => ws.wsMsgList.memberMsg.length, async (len) => {
         :prefix-icon="ElIconSearch"
         minlength="2"
         maxlength="30"
-        placeholder="筛选 🔔"
+        placeholder="搜索好友群聊"
       />
       <BtnElButton
         plain

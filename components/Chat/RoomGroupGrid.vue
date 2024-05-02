@@ -292,7 +292,7 @@ function exitGroup() {
       <i class="block h-1.8em w-1.8em rounded-2rem btn-info sm:(h-1.6em w-1.6em) border-default" i-carbon:add-large @click="onAdd" />
     </div>
     <el-scrollbar
-      height="100%"
+      height="45vh"
       view-class="max-w-full mx-a  tracking-0.1em flex flex-col gap-2"
       wrap-class="w-full mx-a"
     >
@@ -304,7 +304,7 @@ function exitGroup() {
         :loading="isLoading"
         @load="loadData"
       >
-        <div class="grid cols-4 mx-a sm:(cols-6 w-2/3 gap-4)">
+        <div class="grid grid-cols-4 mx-a sm:(grid-cols-6 w-2/3 gap-4)">
           <div
             v-for="p in merberList"
             :key="p.userId"

@@ -16,7 +16,7 @@ useSeoMeta({
 
 <template>
   <div>
-    <NuxtLayout name="chat" class="max-h-100vh max-w-100vw">
+    <NuxtLayout name="chat">
       <!-- 会话列表 -->
       <ChatContactTabs />
       <!-- 聊天框 -->

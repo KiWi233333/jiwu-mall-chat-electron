@@ -233,7 +233,7 @@ async function onLogin(formEl: any | undefined) {
   <!-- 登录 -->
   <el-form
     ref="formRef"
-    v-loading.fullscreen.lock="isLoading"
+    v-loading="isLoading"
     label-position="top"
     hide-required-asterisk
     :rules="rules"

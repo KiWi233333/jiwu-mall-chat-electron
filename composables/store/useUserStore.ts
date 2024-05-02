@@ -152,6 +152,7 @@ export const useUserStore = defineStore(
      * @param t token
      */
     async function onUserExit(t?: string) {
+      navigateTo("/login", { replace: true });
       if (t) {
         clearUserStore();
         return await toLogout(t);

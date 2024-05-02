@@ -16,7 +16,7 @@ const setting = useSettingStore();
 </script>
 
 <template>
-  <div relative>
+  <div>
     <NuxtLayout
       name="chat"
     >

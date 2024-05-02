@@ -30,12 +30,11 @@ export default defineNuxtConfig({
     "@pinia-plugin-persistedstate/nuxt",
     // 其他
     "@vite-pwa/nuxt",
-    "@nuxt/image",
   ],
   app: {
     // https://nuxt.com.cn/docs/getting-started/transitions
-    pageTransition: { name: "page", mode: "out-in" },
-    layoutTransition: { name: "layout", mode: "out-in" },
+    // pageTransition: { name: "page", mode: "out-in" },
+    // layoutTransition: { name: "layout", mode: "out-in" },
     head: {
       title: `${appName} - 开启你的购物社区之旅 ✨`,
       viewport: "width=device-width,initial-scale=1",
