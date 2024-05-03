@@ -1,7 +1,6 @@
 // 打包分包插件解决潜在循环依赖
 // import { chunkSplitPlugin } from "vite-plugin-chunk-split";
 // import { prismjsPlugin } from "vite-plugin-prismjs";
-// import { pwa } from "./config/pwa";
 import { appDescription, appName } from "./constants/index";
 
 const BASE_URL = process.env.NUXT_PUBLIC_API_BASE_URL;
@@ -28,13 +27,8 @@ export default defineNuxtConfig({
     // 基础
     "@pinia/nuxt",
     "@pinia-plugin-persistedstate/nuxt",
-    // 其他
-    // "@vite-pwa/nuxt",
   ],
   app: {
-    // https://nuxt.com.cn/docs/getting-started/transitions
-    // pageTransition: { name: "page", mode: "out-in" },
-    // layoutTransition: { name: "layout", mode: "out-in" },
     head: {
       title: `${appName} - 开启你的购物社区之旅 ✨`,
       viewport: "width=device-width,initial-scale=1",
