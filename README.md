@@ -1,13 +1,16 @@
-<h2 align=center margin="10em" style="margin:4em;letter-spacing:0.3em;">
-<img src="./public/images/logo/logo.png" width = "40" height = "40" alt="图片名称" align=center />
-极物圈聊天应用</h2>
+<h2 align=center style="letter-spacing:0.3em;">
+<img src="./public/images/logo/logo.png" width = "60" height = "60" alt="图片名称" align=center />
+&
+<img src="./.doc/electron.svg" width = "60" height = "60" alt="图片名称" align=center />
+</h2>
+<h2 align=center>极物聊天 Electron</h2>
 
 ###  介绍
-极物圈是一个综合性平台，集商城和社交功能于一体。在这个平台上，用户可以轻松购买虚拟商品，并且可以发布个人帖子，与他人互动，进行评论等。该平台注重用户体验，为用户提供了一个在你圈子交流、好物推荐、分享和购物的多功能环境。
+极物圈是一个综合性平台，集商城和社交功能于一体。在这个平台上，用户可以轻松购买虚拟商品，并且可以发布个人帖子，与他人互动，进行评论等。该平台注重用户体验，为用户提供了一个在你圈子交流、好物推荐、分享和购物的多功能环境，本仓库抽离实现了聊天功能的桌面应用。
 ###  技术
 
 ```
-基于Nuxt3 + element-plus + pinia 基本框架
+基于Nuxt3 + element-plus + Electron 基本框架
 ```
 
 <!-- ###  体验
